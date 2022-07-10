@@ -1,10 +1,7 @@
 import { Form } from "@remix-run/react";
 
 const ListItem = ({ item }: any) => (
-  <div
-    key={item.id}
-    className="flex sm:w-full md:w-3/5 overflow-hidden border-b m-auto p-1 gap-2"
-  >
+  <div key={item.id} className="flex w-full overflow-hidden border-b p-1 gap-2">
     <Form method="post" className="flex flex-col gap-1">
       <input type="hidden" name="docId" value={item.id} />
       <button

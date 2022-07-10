@@ -1,4 +1,4 @@
-import ListItem from "./GridItem";
+import ListItem from "./ListItem";
 
 const ListView = ({ items }: any) => (
   <div className="flex flex-col gap-3 mt-5">
