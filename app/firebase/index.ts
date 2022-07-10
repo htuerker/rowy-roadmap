@@ -84,8 +84,12 @@ const app = getApps().length === 0 ? initializeApp(config) : getApp();
 const auth = getAuth(app);
 signInAnonymously(auth);
 
-const filterMapper = (filter: string) => {
+export const filterMapper = (filter: string) => {
   switch (filter) {
+    case "popular":
+      return "Popular";
+    case "recent":
+      return "Recent";
     case "in-progress":
       return "In Progress";
     case "pending":
@@ -96,18 +100,16 @@ const filterMapper = (filter: string) => {
       return null;
   }
 };
-async function getAll(filters: any) {
-  console.log(filters);
-  // const ref = collection(getFirestore(app), "Roadmap");
-  // const snapshot = await getDocs(ref);
-  // const items = snapshot.docs.map(RoadmapItem.fromFirestore);
-  // return items;
-  if (filters.status) {
-    return mockData.filter(
-      (data) => data.status === filterMapper(filters.status)
-    );
-  }
-  return mockData;
+
+async function getAll({ status, sortBy, page }: any) {
+  const ref = collection(getFirestore(app), "Roadmap");
+  const snapshot = await getDocs(ref);
+  const items = snapshot.docs.map(RoadmapItem.fromFirestore);
+  return items;
+  // if (status) {
+  //   return mockData.filter((data) => data.status === filterMapper(status));
+  // }
+  // return [...mockData];
 }
 
 async function submitVote({ docId, vote }: any) {
