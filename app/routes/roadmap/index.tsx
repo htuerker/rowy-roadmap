@@ -1,7 +1,7 @@
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import { getAll, submitVote } from "../../firebase";
 import { Outlet, useFetcher, useLoaderData } from "@remix-run/react";
-import RoadmapItems from "../../components/roadmap";
+import RoadmapItems from "../../components/roadmap/index";
 import { useEffect, useState } from "react";
 
 const getPage = (searchParams: URLSearchParams) =>
