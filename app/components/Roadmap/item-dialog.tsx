@@ -19,6 +19,7 @@ const ItemDialog = ({ item, open, onClose }: any) => {
     if (!item) return;
     console.log("fetching...");
     fetcher.load(`/roadmap/${item.id}/${currentTab}`);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item, currentTab]);
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const ItemDialog = ({ item, open, onClose }: any) => {
         setTimelog((timelog: any) => [...timelog, ...fetcher.data]);
       }
     }
-  }, [fetcher.data]);
+  }, [currentTab, fetcher.data]);
 
   return (
     <Dialog

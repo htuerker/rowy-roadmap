@@ -1,4 +1,4 @@
-import { getAuth, onAuthStateChanged, signInAnonymously } from "firebase/auth";
+import { getAuth, signInAnonymously } from "firebase/auth";
 import { initializeApp, getApps, getApp } from "firebase/app";
 import type { QueryDocumentSnapshot } from "firebase/firestore/lite";
 import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
@@ -26,54 +26,54 @@ class RoadmapItem {
   }
 }
 
-const mockData = [
-  {
-    id: 1,
-    feature: "Pied Piper Integration",
-    description:
-      "We would love to have an integration with the world's best compression software!",
-    status: "In Progress",
-    votesSummary: { Yes: 2, Meh: 1, Urgent: 5 },
-  },
-  {
-    id: 2,
-    feature: "Custom Fields",
-    description: "We need to be able to add custom fields to the forms.",
-    status: "Complete",
-    votesSummary: { Yes: 2, Meh: 2, Urgent: 5 },
-  },
-  {
-    id: 3,
-    feature: "Social media shares",
-    description:
-      "Would be cool if our users can share the content from the app.",
-    status: "Pending",
-    votesSummary: { Yes: 2, Meh: 5, Urgent: 1 },
-  },
-  {
-    id: 4,
-    feature: "Pied Piper Integration",
-    description:
-      "We would love to have an integration with the world's best compression software!",
-    status: "In Progress",
-    votesSummary: { Yes: 2, Meh: 1, Urgent: 5 },
-  },
-  {
-    id: 5,
-    feature: "Custom Fields",
-    description: "We need to be able to add custom fields to the forms.",
-    status: "Complete",
-    votesSummary: { Yes: 2, Meh: 2, Urgent: 5 },
-  },
-  {
-    id: 6,
-    feature: "Social media shares",
-    description:
-      "Would be cool if our users can share the content from the app.",
-    status: "Pending",
-    votesSummary: { Yes: 2, Meh: 5, Urgent: 1 },
-  },
-];
+// const mockData = [
+//   {
+//     id: 1,
+//     feature: "Pied Piper Integration",
+//     description:
+//       "We would love to have an integration with the world's best compression software!",
+//     status: "In Progress",
+//     votesSummary: { Yes: 2, Meh: 1, Urgent: 5 },
+//   },
+//   {
+//     id: 2,
+//     feature: "Custom Fields",
+//     description: "We need to be able to add custom fields to the forms.",
+//     status: "Complete",
+//     votesSummary: { Yes: 2, Meh: 2, Urgent: 5 },
+//   },
+//   {
+//     id: 3,
+//     feature: "Social media shares",
+//     description:
+//       "Would be cool if our users can share the content from the app.",
+//     status: "Pending",
+//     votesSummary: { Yes: 2, Meh: 5, Urgent: 1 },
+//   },
+//   {
+//     id: 4,
+//     feature: "Pied Piper Integration",
+//     description:
+//       "We would love to have an integration with the world's best compression software!",
+//     status: "In Progress",
+//     votesSummary: { Yes: 2, Meh: 1, Urgent: 5 },
+//   },
+//   {
+//     id: 5,
+//     feature: "Custom Fields",
+//     description: "We need to be able to add custom fields to the forms.",
+//     status: "Complete",
+//     votesSummary: { Yes: 2, Meh: 2, Urgent: 5 },
+//   },
+//   {
+//     id: 6,
+//     feature: "Social media shares",
+//     description:
+//       "Would be cool if our users can share the content from the app.",
+//     status: "Pending",
+//     votesSummary: { Yes: 2, Meh: 5, Urgent: 1 },
+//   },
+// ];
 
 const config = {
   apiKey: process.env.FIREBASE_PROJECT_WEB_API_KEY,

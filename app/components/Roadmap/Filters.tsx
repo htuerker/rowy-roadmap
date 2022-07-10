@@ -1,5 +1,5 @@
 import { useSubmit } from "@remix-run/react";
-import { Popover, Transition } from "@headlessui/react";
+import { Popover } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 
 const sortByFilters = ["popular", "recent"];

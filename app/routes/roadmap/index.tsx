@@ -1,7 +1,7 @@
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
-import { getAll, submitVote } from "~/firebase";
+import { getAll, submitVote } from "../../firebase";
 import { Outlet, useFetcher, useLoaderData } from "@remix-run/react";
-import RoadmapItems from "~/components/roadmap";
+import RoadmapItems from "../../components/roadmap";
 import { useEffect, useState } from "react";
 
 const getPage = (searchParams: URLSearchParams) =>
@@ -35,7 +35,7 @@ const useInfiniteScroll = () => {
     if (fetcher.data && fetcher.data.length > 0) {
       setData((data: any) => [...data, ...fetcher.data]);
     }
-  }, [fetcher.data]);
+  }, [fetcher.data, page]);
 
   const fetchNextPage = () => {
     fetcher.load(`/roadmap?index&${page}`);
