@@ -1,48 +1,21 @@
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
-import {
-  firebaseClientConfig,
-  getAll,
-  submitVote,
-} from "~/firebase-admin.server";
-import { Outlet, useFetcher, useLoaderData } from "@remix-run/react";
+import { firebaseClientConfig } from "~/firebase-admin.server";
+import { Outlet, useLoaderData } from "@remix-run/react";
 import RoadmapItems from "../../components/roadmap/index";
-import { useEffect, useState } from "react";
 import { getUser, requireUser } from "~/session.server";
 import { LogoutButton } from "~/components/auth";
+import { createVote, getAll } from "~/api.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
   await requireUser(request, "/roadmap");
   const currentUser = await getUser(request);
-  const data = await getAll();
-  return { currentUser, data, firebaseClientConfig };
-};
-
-const useInfiniteScroll = (initialData: any) => {
-  const [data, setData] = useState(initialData);
-  const fetcher = useFetcher();
-  const [page, setPage] = useState(1);
-
-  useEffect(() => {
-    if (page <= 1) {
-      return;
-    }
-
-    if (fetcher.data && fetcher.data.length > 0) {
-      setData((data: any) => [...data, ...fetcher.data]);
-    }
-  }, [fetcher.data, page]);
-
-  const fetchNextPage = () => {
-    fetcher.load(`/roadmap?index&${page}`);
-    setPage((page) => page + 1);
-  };
-
-  return { data, fetcher, fetchNextPage };
+  const items = await getAll();
+  return { currentUser, items, firebaseClientConfig };
 };
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  await submitVote({
+  await createVote({
     docId: formData.get("docId"),
     vote: formData.get("vote"),
   });
@@ -50,19 +23,12 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Index() {
-  const { currentUser, data, firebaseClientConfig } = useLoaderData();
-  const { data: items, fetcher, fetchNextPage } = useInfiniteScroll(data);
-
+  const { currentUser, items, firebaseClientConfig } = useLoaderData();
   return (
     <>
-      <div>{JSON.stringify(currentUser)}</div>
+      <div>{currentUser.name}</div>
       <LogoutButton firebaseConfig={firebaseClientConfig} />
       <RoadmapItems items={items} />
-      <div className="flex justify-center">
-        <button onClick={fetchNextPage} disabled={fetcher.state === "loading"}>
-          {fetcher.state === "loading" ? "Loading..." : "Load more!"}
-        </button>
-      </div>
       <Outlet />
     </>
   );

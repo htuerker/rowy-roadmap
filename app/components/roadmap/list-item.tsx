@@ -1,17 +1,18 @@
-import { Form } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import VoteField from "./vote-field";
 
 const ListItem = ({ item, handleClick }: any) => {
+  const fetcher = useFetcher();
   return (
     <div
       onClick={handleClick}
       className="flex w-full overflow-hidden border-b p-1 gap-2 hover:bg-red-50 pointer"
     >
-      <Form method="post" className="flex flex-col gap-1">
+      <fetcher.Form method="post" className="flex flex-col gap-1">
         <VoteField id={item.id} text="👍" />
         <VoteField id={item.id} text="👎" />
         <VoteField id={item.id} text="🔥" />
-      </Form>
+      </fetcher.Form>
       <div className="flex flex-col w-full">
         <div className="font-medium text-stone">{item.feature}</div>
         <div className="-mt-1 select-none">

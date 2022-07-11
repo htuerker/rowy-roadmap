@@ -1,16 +1,25 @@
+import { useFetcher } from "@remix-run/react";
 import { useState } from "react";
 import GridItem from "./grid-item";
 import ItemDialog from "./item-dialog";
 import ListItem from "./list-item";
 
 const RoadmapItems = ({ items }: any) => {
+  const fetcher = useFetcher();
   const [viewMode, setViewMode] = useState("list");
   const [isOpen, setIsOpen] = useState(false);
   const [dialogItem, setDialogItem] = useState(null);
 
-  const handleClick = (id: string) => {
+  const handleClick = (itemId: string) => {
     setIsOpen(true);
-    setDialogItem(items.find((item: any) => item.id === Number(id)));
+    setDialogItem(items.find((item: any) => item.id === itemId));
+  };
+
+  const handleVote = (itemId: string, vote: any) => {
+    fetcher.submit(
+      { vote },
+      { action: `/roadmap/${itemId}/votes`, method: "post" }
+    );
   };
 
   return (
@@ -36,6 +45,7 @@ const RoadmapItems = ({ items }: any) => {
               key={item.id}
               item={item}
               handleClick={() => handleClick(item.id)}
+              handleVote={handleVote}
             />
           ))}
         </div>
