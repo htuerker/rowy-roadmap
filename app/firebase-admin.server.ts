@@ -8,11 +8,20 @@ export const firebaseClientConfig = {
   authDomain: process.env.CLIENT_FIREBASE_AUTH_DOMAIN,
 };
 
-const serviceAccount = require("./service-account.json");
+if (!process.env.SERVER_APP_FIREBASE_SERVICE_ACCOUNT) {
+  throw new Error(
+    `Environment variable "SERVER_APP_FIREBASE_SERVICE_ACCOUNT" is missing`
+  );
+}
+
+const serviceAccountConfig = JSON.parse(
+  process.env.SERVER_APP_FIREBASE_SERVICE_ACCOUNT
+);
+
 const adminApp =
   getApps().length === 0
     ? admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
+        credential: admin.credential.cert({ ...serviceAccountConfig }),
       })
     : getApp();
 
