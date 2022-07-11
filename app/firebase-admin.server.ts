@@ -79,10 +79,10 @@ class RoadmapItem {
 //   },
 // ];
 
-export const clientConfig = {
-  apiKey: process.env.FIREBASE_PROJECT_WEB_API_KEY,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+export const firebaseClientConfig = {
+  apiKey: process.env.CLIENT_FIREBASE_PROJECT_WEB_API_KEY,
+  projectId: process.env.CLIENT_FIREBASE_PROJECT_ID,
+  authDomain: process.env.CLIENT_FIREBASE_AUTH_DOMAIN,
 };
 
 const serviceAccount = require("./service-account.json");

@@ -1,5 +1,9 @@
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
-import { getAll, submitVote } from "~/firebase-admin.server";
+import {
+  firebaseClientConfig,
+  getAll,
+  submitVote,
+} from "~/firebase-admin.server";
 import { Outlet, useFetcher, useLoaderData } from "@remix-run/react";
 import RoadmapItems from "../../components/roadmap/index";
 import { useEffect, useState } from "react";
@@ -10,7 +14,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   await requireUser(request, "/roadmap");
   const currentUser = await getUser(request);
   const data = await getAll();
-  return { currentUser, data };
+  return { currentUser, data, firebaseClientConfig };
 };
 
 const useInfiniteScroll = (initialData: any) => {
@@ -46,13 +50,13 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Index() {
-  const { currentUser, data } = useLoaderData();
+  const { currentUser, data, firebaseClientConfig } = useLoaderData();
   const { data: items, fetcher, fetchNextPage } = useInfiniteScroll(data);
 
   return (
     <>
       <div>{JSON.stringify(currentUser)}</div>
-      <LogoutButton />
+      <LogoutButton firebaseConfig={firebaseClientConfig} />
       <RoadmapItems items={items} />
       <div className="flex justify-center">
         <button onClick={fetchNextPage} disabled={fetcher.state === "loading"}>

@@ -1,6 +1,8 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import { LoginButton } from "~/components/auth";
+import { firebaseClientConfig } from "~/firebase-admin.server";
 import { createUserSession, getUser } from "~/session.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -8,7 +10,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   if (currentUser) {
     throw redirect("/");
   }
-  return null;
+  return firebaseClientConfig;
 };
 
 export const action: ActionFunction = async ({ request }) => {
@@ -22,5 +24,6 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Login() {
-  return <LoginButton />;
+  const firebaseClientConfig = useLoaderData();
+  return <LoginButton firebaseConfig={firebaseClientConfig} />;
 }

@@ -1,25 +1,11 @@
 import { useSubmit } from "@remix-run/react";
 import { getApp, getApps, initializeApp } from "firebase/app";
-import {
-  getAuth,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signInWithPopup,
-} from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA0d_6JWS7hcJOAkRxWfItN2TatX1eoTJI",
-  projectId: "rowy-deploy-2",
-  authDomain: "rowy-deploy-2.firebaseapp.com",
-};
+export const LoginButton = ({ firebaseConfig }: any) => {
+  const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+  const auth = getAuth(app);
 
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
-const auth = getAuth(app);
-
-onAuthStateChanged(auth, (user) => {
-  console.log(user);
-});
-export const LoginButton = () => {
   const submit = useSubmit();
 
   const handleLogin = () => {
@@ -36,10 +22,13 @@ export const LoginButton = () => {
     );
   };
 
-  return <button onClick={handleLogin}>Login</button>;
+  return <button onClick={handleLogin}>Sign in with Google</button>;
 };
 
-export const LogoutButton = () => {
+export const LogoutButton = ({ firebaseConfig }: any) => {
+  const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+  const auth = getAuth(app);
+
   const submit = useSubmit();
 
   const handleLogout = () => {

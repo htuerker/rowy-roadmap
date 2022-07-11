@@ -5,7 +5,7 @@ const ListItem = ({ item, handleClick }: any) => {
   return (
     <div
       onClick={handleClick}
-      className="flex w-full overflow-hidden border-b p-1 gap-2 hover:bg-red-50 cursor-pointer"
+      className="flex w-full overflow-hidden border-b p-1 gap-2 hover:bg-red-50 pointer"
     >
       <Form method="post" className="flex flex-col gap-1">
         <VoteField id={item.id} text="👍" />
