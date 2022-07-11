@@ -1,28 +1,19 @@
 import type { LoaderFunction, ActionFunction } from "@remix-run/node";
-import { getAll, submitVote } from "../../firebase";
+import { getAll, submitVote } from "~/firebase-admin.server";
 import { Outlet, useFetcher, useLoaderData } from "@remix-run/react";
 import RoadmapItems from "../../components/roadmap/index";
 import { useEffect, useState } from "react";
-
-const getPage = (searchParams: URLSearchParams) =>
-  Number(searchParams.get("page") || "1");
-
-const getStatus = (searchParams: URLSearchParams) => searchParams.get("status");
-const getSortBy = (searchParams: URLSearchParams) =>
-  searchParams.get("sort_by");
+import { requireUser } from "~/session.server";
+import { Logout } from "~/components/auth";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const url = new URL(request.url);
-  const status = getStatus(url.searchParams);
-  const sort_by = getSortBy(url.searchParams);
-  const page = getPage(url.searchParams);
-
-  const items = await getAll({ status, sort_by, page });
-  return items;
+  const currentUser = await requireUser(request, "/roadmap");
+  const data = await getAll();
+  console.log(currentUser);
+  return { currentUser, data };
 };
 
-const useInfiniteScroll = () => {
-  const initialData = useLoaderData();
+const useInfiniteScroll = (initialData: any) => {
   const [data, setData] = useState(initialData);
   const fetcher = useFetcher();
   const [page, setPage] = useState(1);
@@ -55,11 +46,14 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Index() {
-  const { data: items, fetcher, fetchNextPage } = useInfiniteScroll();
+  const { currentUser, data } = useLoaderData();
+  const { data: items, fetcher, fetchNextPage } = useInfiniteScroll(data);
 
   return (
     <>
-      <RoadmapItems items={items} />;
+      <div>{JSON.stringify(currentUser)}</div>
+      <Logout />
+      <RoadmapItems items={items} />
       <div className="flex justify-center">
         <button onClick={fetchNextPage} disabled={fetcher.state === "loading"}>
           {fetcher.state === "loading" ? "Loading..." : "Load more!"}

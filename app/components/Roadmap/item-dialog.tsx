@@ -17,9 +17,8 @@ const ItemDialog = ({ item, open, onClose }: any) => {
   }
   useEffect(() => {
     if (!item) return;
-    console.log("fetching...");
     fetcher.load(`/roadmap/${item.id}/${currentTab}`);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item, currentTab]);
 
   useEffect(() => {

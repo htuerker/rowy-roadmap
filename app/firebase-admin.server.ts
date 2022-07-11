@@ -1,9 +1,9 @@
-import { getAuth, signInAnonymously } from "firebase/auth";
-import { initializeApp, getApps, getApp } from "firebase/app";
-import type { QueryDocumentSnapshot } from "firebase/firestore/lite";
-import { getFirestore, collection, getDocs } from "firebase/firestore/lite";
-
-import "firebase/firestore";
+import * as admin from "firebase-admin";
+import { getApps, getApp } from "firebase-admin/app";
+import type { QueryDocumentSnapshot } from "firebase-admin/firestore";
+import { collection } from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
+import { getFirestore } from "firebase-admin/firestore";
 
 class RoadmapItem {
   constructor(
@@ -11,7 +11,9 @@ class RoadmapItem {
     readonly feature: string,
     readonly description: string,
     readonly status: string,
-    readonly votesSummary: any
+    readonly votesSummary: any,
+    readonly updatedBy: any,
+    readonly createdBy: any
   ) {}
 
   static fromFirestore(snapshot: QueryDocumentSnapshot): RoadmapItem {
@@ -21,7 +23,9 @@ class RoadmapItem {
       data.feature,
       data.description,
       data.status,
-      data.votesSummary
+      data.votesSummary,
+      data._updatedBy,
+      data._createdBy
     );
   }
 }
@@ -75,41 +79,28 @@ class RoadmapItem {
 //   },
 // ];
 
-const config = {
+export const clientConfig = {
   apiKey: process.env.FIREBASE_PROJECT_WEB_API_KEY,
   projectId: process.env.FIREBASE_PROJECT_ID,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
 };
 
-const app = getApps().length === 0 ? initializeApp(config) : getApp();
-const auth = getAuth(app);
-signInAnonymously(auth);
+const serviceAccount = require("./service-account.json");
+const adminApp =
+  getApps().length === 0
+    ? admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+      })
+    : getApp();
 
-export const filterMapper = (filter: string) => {
-  switch (filter) {
-    case "popular":
-      return "Popular";
-    case "recent":
-      return "Recent";
-    case "in-progress":
-      return "In Progress";
-    case "pending":
-      return "Pending";
-    case "completed":
-      return "Complete";
-    default:
-      return null;
-  }
-};
+const db = getFirestore(adminApp);
+export const auth = admin.auth(adminApp);
 
-async function getAll({ status, sortBy, page }: any) {
-  const ref = collection(getFirestore(app), "Roadmap");
-  const snapshot = await getDocs(ref);
-  const items = snapshot.docs.map(RoadmapItem.fromFirestore);
-  return items;
-  // if (status) {
-  //   return mockData.filter((data) => data.status === filterMapper(status));
-  // }
-  // return [...mockData];
+async function getAll() {
+  const ref = db.collection("Roadmap");
+  const snapshot = await ref.get();
+
+  return snapshot.docs.map(RoadmapItem.fromFirestore);
 }
 
 async function submitVote({ docId, vote }: any) {

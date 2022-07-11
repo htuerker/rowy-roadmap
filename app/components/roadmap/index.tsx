@@ -1,16 +1,10 @@
-import { useSearchParams } from "@remix-run/react";
 import { useState } from "react";
-import Filters from "./filters";
 import GridItem from "./grid-item";
 import ItemDialog from "./item-dialog";
 import ListItem from "./list-item";
 
 const RoadmapItems = ({ items }: any) => {
   const [viewMode, setViewMode] = useState("list");
-  const [searchParams] = useSearchParams();
-  const sort_by = searchParams.get("sort_by");
-  const status = searchParams.get("status");
-  const filters = { sort_by, status };
   const [isOpen, setIsOpen] = useState(false);
   const [dialogItem, setDialogItem] = useState(null);
 
@@ -21,7 +15,6 @@ const RoadmapItems = ({ items }: any) => {
 
   return (
     <div className="max-w-screen-md md:mx-auto shadow-md mt-5">
-      <Filters activeFilters={filters} />
       <div className="flex py-2 gap-2 w-full justify-center">
         <button
           onClick={() => setViewMode("list")}

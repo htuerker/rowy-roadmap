@@ -1,13 +1,17 @@
-import type { LoaderFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
-import Login from "~/components/auth/login";
-import { clientConfig } from "~/firebase";
+import type { ActionFunction } from "@remix-run/node";
+import { Login } from "~/components/auth";
+import { createUserSession } from "~/session.server";
 
-export const loader: LoaderFunction = async () => {
-  return clientConfig;
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const token = formData.get("token");
+
+  if (token) {
+    return createUserSession(String(token), "/roadmap");
+  }
+  return null;
 };
 
 export default function LoginPage() {
-  const config = useLoaderData();
-  return <Login firebaseConfig={config} />;
+  return <Login />;
 }
