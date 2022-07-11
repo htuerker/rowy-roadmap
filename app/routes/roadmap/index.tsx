@@ -3,13 +3,13 @@ import { getAll, submitVote } from "~/firebase-admin.server";
 import { Outlet, useFetcher, useLoaderData } from "@remix-run/react";
 import RoadmapItems from "../../components/roadmap/index";
 import { useEffect, useState } from "react";
-import { requireUser } from "~/session.server";
+import { getUser, requireUser } from "~/session.server";
 import { LogoutButton } from "~/components/auth";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const currentUser = await requireUser(request, "/roadmap");
+  await requireUser(request, "/roadmap");
+  const currentUser = await getUser(request);
   const data = await getAll();
-  console.log(currentUser);
   return { currentUser, data };
 };
 

@@ -1,6 +1,15 @@
-import type { ActionFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { LoginButton } from "~/components/auth";
-import { createUserSession } from "~/session.server";
+import { createUserSession, getUser } from "~/session.server";
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const currentUser = await getUser(request);
+  if (currentUser) {
+    throw redirect("/");
+  }
+  return null;
+};
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();

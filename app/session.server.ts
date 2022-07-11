@@ -28,10 +28,10 @@ export async function requireUser(
     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
     throw redirect(`/login?${searchParams}`);
   }
-  return await getUser(token);
 }
 
-export async function getUser(token: string) {
+export async function getUser(request: Request) {
+  const token = await getToken(request);
   if (typeof token !== "string") {
     return null;
   }
