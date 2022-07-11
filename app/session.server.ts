@@ -26,7 +26,7 @@ export async function requireUser(
   const token = await getToken(request);
   if (!token || typeof token !== "string") {
     const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
-    throw redirect(`/login?${searchParams}`);
+    throw redirect(`/auth/login?${searchParams}`);
   }
 }
 
@@ -37,8 +37,8 @@ export async function getUser(request: Request) {
   }
   return auth.verifyIdToken(token).then(
     (user) => user,
-    (error) => {
-      throw new Error("Could not verify session!");
+    async (error) => {
+      throw await logout(request);
     }
   );
 }
@@ -65,7 +65,7 @@ export async function getToken(request: Request) {
 
 export async function logout(request: Request) {
   const session = await getUserSession(request);
-  return redirect("/login", {
+  return redirect("/auth/login", {
     headers: {
       "Set-Cookie": await storage.destroySession(session),
     },
