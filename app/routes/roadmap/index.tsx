@@ -4,7 +4,7 @@ import { Outlet, useFetcher, useLoaderData } from "@remix-run/react";
 import RoadmapItems from "../../components/roadmap/index";
 import { useEffect, useState } from "react";
 import { requireUser } from "~/session.server";
-import { Logout } from "~/components/auth";
+import { LogoutButton } from "~/components/auth";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const currentUser = await requireUser(request, "/roadmap");
@@ -52,7 +52,7 @@ export default function Index() {
   return (
     <>
       <div>{JSON.stringify(currentUser)}</div>
-      <Logout />
+      <LogoutButton />
       <RoadmapItems items={items} />
       <div className="flex justify-center">
         <button onClick={fetchNextPage} disabled={fetcher.state === "loading"}>

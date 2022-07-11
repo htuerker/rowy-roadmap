@@ -19,9 +19,32 @@ const storage = createCookieSessionStorage({
   },
 });
 
+export async function requireUser(
+  request: Request,
+  redirectTo: string = new URL(request.url).pathname
+) {
+  const token = await getToken(request);
+  if (!token || typeof token !== "string") {
+    const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
+    throw redirect(`/login?${searchParams}`);
+  }
+  return await getUser(token);
+}
+
+export async function getUser(token: string) {
+  if (typeof token !== "string") {
+    return null;
+  }
+  return auth.verifyIdToken(token).then(
+    (user) => user,
+    (error) => {
+      throw new Error("Could not verify session!");
+    }
+  );
+}
 export async function createUserSession(token: string, redirectTo: string) {
   const session = await storage.getSession();
-  session.set("idToken", token);
+  session.set("token", token);
   return redirect(redirectTo, {
     headers: {
       "Set-Cookie": await storage.commitSession(session),
@@ -33,36 +56,11 @@ export function getUserSession(request: Request) {
   return storage.getSession(request.headers.get("Cookie"));
 }
 
-export async function getIdToken(request: Request) {
+export async function getToken(request: Request) {
   const session = await getUserSession(request);
-  const idToken = session.get("idToken");
-  if (!idToken || typeof idToken !== "string") return null;
-  return idToken;
-}
-
-export async function requireUser(
-  request: Request,
-  redirectTo: string = new URL(request.url).pathname
-) {
-  const idToken = await getIdToken(request);
-  if (!idToken || typeof idToken !== "string") {
-    const searchParams = new URLSearchParams([["redirectTo", redirectTo]]);
-    throw redirect(`/login?${searchParams}`);
-  }
-  return await getUser(request);
-}
-
-export async function getUser(request: Request) {
-  const idToken = await getIdToken(request);
-  if (typeof idToken !== "string") {
-    return null;
-  }
-  return auth.verifyIdToken(idToken).then(
-    (user) => user,
-    (error) => {
-      throw new Error("Could not verify session!");
-    }
-  );
+  const token = session.get("token");
+  if (!token || typeof token !== "string") return null;
+  return token;
 }
 
 export async function logout(request: Request) {
