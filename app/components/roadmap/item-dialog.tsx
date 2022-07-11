@@ -1,11 +1,23 @@
 import { Dialog } from "@headlessui/react";
 import { useFetcher } from "@remix-run/react";
+import type { MutableRefObject } from "react";
 import { useEffect, useRef, useState } from "react";
+import type { RoadmapItem } from "~/models/RoadmapItem";
+import type { Vote } from "~/models/Vote";
+import Spinner from "../ui/spinner";
 
-const ItemDialog = ({ item, open, onClose }: any) => {
-  const itemRef = useRef(item);
+const ItemDialog = ({
+  item,
+  open,
+  onClose,
+}: {
+  item: RoadmapItem | null;
+  open: boolean;
+  onClose: (state: boolean) => void;
+}) => {
+  const itemRef: MutableRefObject<RoadmapItem | null> = useRef(item);
   const fetcher = useFetcher();
-  const [votes, setVotes] = useState<any>([]);
+  const [votes, setVotes] = useState<Vote[] | []>([]);
 
   if (itemRef.current !== item) {
     itemRef.current = item;
@@ -19,7 +31,7 @@ const ItemDialog = ({ item, open, onClose }: any) => {
 
   useEffect(() => {
     if (fetcher.data && fetcher.data.length > 0) {
-      setVotes((votes: any) => [...votes, ...fetcher.data]);
+      setVotes((votes: Vote[] | []) => [...votes, ...fetcher.data]);
     }
   }, [fetcher.data]);
 
@@ -39,10 +51,14 @@ const ItemDialog = ({ item, open, onClose }: any) => {
             </>
           )}
           <div>Votes</div>
-          {votes.length > 0 &&
-            votes.map((vote: any, index: number) => (
+          {fetcher.state === "loading" ? (
+            <Spinner />
+          ) : (
+            votes.length > 0 &&
+            votes.map((vote: Vote, index: number) => (
               <div key={index}>{vote.comment}</div>
-            ))}
+            ))
+          )}
           <button onClick={() => onClose(false)}>Exit Dialog</button>
         </Dialog.Panel>
       </div>

@@ -8,16 +8,17 @@ export const LoginButton = ({ firebaseConfig }: any) => {
 
   const submit = useSubmit();
 
-  const handleLogin = () => {
-    signInWithPopup(auth, new GoogleAuthProvider()).then(
+  const handleLogin = async () => {
+    await auth.signOut();
+    await signInWithPopup(auth, new GoogleAuthProvider()).then(
       (result) => {
         const user = result.user;
-        user.getIdToken().then((token: string) => {
-          submit({ token }, { method: "post" });
+        user.getIdToken(true).then((token: string) => {
+          submit({ token }, { action: "/auth/login", method: "post" });
         });
       },
-      () => {
-        throw new Error("Something went wrong!");
+      (error) => {
+        throw new Error(error);
       }
     );
   };
@@ -31,9 +32,9 @@ export const LogoutButton = ({ firebaseConfig }: any) => {
 
   const submit = useSubmit();
 
-  const handleLogout = () => {
-    auth.signOut();
-    submit(null, { action: "/logout", method: "post" });
+  const handleLogout = async () => {
+    await auth.signOut();
+    submit(null, { action: "/auth/logout", method: "post" });
   };
 
   return <button onClick={handleLogout}>Logout</button>;

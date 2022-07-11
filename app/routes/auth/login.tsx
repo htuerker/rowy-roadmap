@@ -3,13 +3,9 @@ import { redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { LoginButton } from "~/components/auth";
 import { firebaseClientConfig } from "~/firebase-admin.server";
-import { createUserSession, getUser } from "~/session.server";
+import { createUserSession } from "~/session.server";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const currentUser = await getUser(request);
-  if (currentUser) {
-    throw redirect("/");
-  }
   return firebaseClientConfig;
 };
 

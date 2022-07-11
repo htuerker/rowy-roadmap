@@ -3,12 +3,14 @@ import { createVote, getVotes } from "~/api.server";
 
 export const loader: LoaderFunction = async ({ params }: any) => {
   const { itemId } = params;
-  return await getVotes(itemId);
+  const votes = await getVotes(itemId);
+  return votes;
 };
 
-export const action: ActionFunction = async ({ request, params }: any) => {
-  const formData = request.formData();
+export const action: ActionFunction = async ({ request }: any) => {
+  const formData = await request.formData();
+  const itemId = formData.get("docId");
   const vote = formData.get("vote");
-  const { itemId } = params;
-  return await createVote({ itemId, vote });
+  await createVote(request, { itemId, vote });
+  return null;
 };

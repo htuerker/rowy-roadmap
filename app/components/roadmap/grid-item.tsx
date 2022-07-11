@@ -1,13 +1,11 @@
-import { Form } from "@remix-run/react";
-import VoteField from "./vote-field";
+import type { RoadmapItem } from "~/models/RoadmapItem";
+import VoteForm from "./vote-form";
 
-const GridItem = ({ item }: any) => (
+const GridItem = ({ item }: { item: RoadmapItem }) => (
   <div className="flex w-full sm:w-1/2 md:w-1/3 rounded overflow-hidden border-solid border-2 p-2 m-2 hover:bg-red-50 cursor-pointer">
-    <Form method="post" className="flex flex-col gap-1">
-      <VoteField id={item.id} text={"👍"} />
-      <VoteField id={item.id} text={"👎"} />
-      <VoteField id={item.id} text={"🔥"} />
-    </Form>
+    <VoteForm id={item.id} vote="Yes" text="👍" />
+    <VoteForm id={item.id} vote="Meh" text="👎" />
+    <VoteForm id={item.id} vote="Urgent" text="🔥" />
     <div className="flex flex-col w-full">
       <div className="font-medium text-stone">{item.feature}</div>
       <div className="-mt-1 select-none">
