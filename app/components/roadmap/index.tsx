@@ -25,18 +25,21 @@ const RoadmapItems = ({
   return (
     <Container>
       {viewMode === "list" && (
-        <div className="flex flex-col mt-5">
+        <div className="flex flex-col gap-1">
           {items.map((item: any) => (
-            <ListItem
-              key={item.id}
-              item={item}
-              handleClick={() => handleClick(item.id)}
-            />
+            <>
+              <ListItem
+                key={item.id}
+                item={item}
+                handleClick={() => handleClick(item.id)}
+              />
+              <div className="divider m-0"></div>
+            </>
           ))}
         </div>
       )}
       {viewMode === "grid" && (
-        <div className="flex mt-5 flex-wrap justify-start">
+        <div className="flex flex-wrap justify-start gap-1">
           {items.map((item: any) => (
             <GridItem key={item.id} item={item} />
           ))}
