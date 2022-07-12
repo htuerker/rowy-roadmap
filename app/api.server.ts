@@ -1,3 +1,4 @@
+import { redirect } from "@remix-run/node";
 import { getUser } from "~/session.server";
 import { db } from "./firebase-admin.server";
 import { RoadmapItem } from "./models/RoadmapItem";
@@ -5,8 +6,10 @@ import { Vote } from "./models/Vote";
 
 export async function getAll(request: Request) {
   const currentUser = await getUser(request);
+  // TODO error handling
   if (!currentUser) {
-    throw new Error("User is not authenticated");
+    throw redirect("/auth/login")
+    // throw new Error("User is not authenticated");
   }
   const itemsRef = db.collection("Roadmap");
   const snapshot = await itemsRef.get();
@@ -39,8 +42,10 @@ export async function getVotes(id: string) {
 
 export async function createVote(request: Request, { itemId, vote }: any) {
   const currentUser = await getUser(request);
+  // TODO error handling / redirect to login
   if (!currentUser) {
-    throw new Error("User is not authenticated");
+    throw redirect("/auth/login");
+    // throw new Error("User is not authenticated");
   }
 
   const ref = db.collection("Roadmap").doc(itemId).collection("votes");
