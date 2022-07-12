@@ -1,30 +1,49 @@
-import type { LoaderFunction, ActionFunction } from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { firebaseClientConfig } from "~/firebase-admin.server";
 import { Outlet, useLoaderData, useTransition } from "@remix-run/react";
 import RoadmapItems from "../../components/roadmap/index";
-import { getUser, requireUser } from "~/session.server";
-import { LogoutButton } from "~/components/auth";
-import { createVote, getAll } from "~/api.server";
+import { getAll } from "~/api.server";
 import Spinner from "~/components/ui/spinner";
+import { getUser } from "~/session.server";
 
-export const loader: LoaderFunction = async ({ request }) => {
-  await requireUser(request, "/roadmap");
+import Navbar from "~/components/ui/navbar";
+import { useState } from "react";
+
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const filter = new URL(request.url).searchParams.get("filter") ?? "Idea";
   const currentUser = await getUser(request);
-  const items = await getAll();
-  return { currentUser, items, firebaseClientConfig };
+  const items = await getAll(request);
+  return {
+    currentUser,
+    items: items,
+    activeFilter: filter,
+    firebaseClientConfig,
+  };
 };
+
 export default function Index() {
-  const { currentUser, items, firebaseClientConfig } = useLoaderData();
+  const { currentUser, items, firebaseClientConfig, activeFilter } =
+    useLoaderData();
   const transition = useTransition();
   const isLoading = transition.state === "loading";
+  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
+
+  const toggleViewMode = () => {
+    setViewMode((viewMode) => (viewMode === "list" ? "grid" : "list"));
+  };
 
   if (isLoading) return <Spinner />;
 
   return (
     <>
-      <div>{currentUser.name}</div>
-      <LogoutButton firebaseConfig={firebaseClientConfig} />
-      <RoadmapItems items={items} />
+      <Navbar
+        user={currentUser}
+        firebaseClientConfig={firebaseClientConfig}
+        viewMode={viewMode}
+        activeFilter={activeFilter}
+        toggleViewMode={toggleViewMode}
+      />
+      <RoadmapItems items={items} viewMode={viewMode} />
       <Outlet />
     </>
   );

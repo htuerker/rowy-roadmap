@@ -23,8 +23,8 @@ export class Vote {
       data.vote,
       data.comment,
       data.email,
-      data.createdAt,
-      data.createdBy
+      data._createdAt,
+      data._createdBy
     );
   }
   static toFirestore(object: Vote) {}

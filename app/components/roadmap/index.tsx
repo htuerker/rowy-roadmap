@@ -1,11 +1,17 @@
 import { useState } from "react";
 import type { RoadmapItem } from "~/models/RoadmapItem";
+import Container from "../ui/container";
 import GridItem from "./grid-item";
 import ItemDialog from "./item-dialog";
 import ListItem from "./list-item";
 
-const RoadmapItems = ({ items }: { items: RoadmapItem[] }) => {
-  const [viewMode, setViewMode] = useState("list");
+const RoadmapItems = ({
+  items,
+  viewMode,
+}: {
+  items: RoadmapItem[];
+  viewMode: "list" | "grid";
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [dialogItem, setDialogItem] = useState<RoadmapItem | null>(null);
 
@@ -17,21 +23,7 @@ const RoadmapItems = ({ items }: { items: RoadmapItem[] }) => {
   };
 
   return (
-    <div className="max-w-screen-md md:mx-auto shadow-md mt-5">
-      <div className="flex py-2 gap-2 w-full justify-center">
-        <button
-          onClick={() => setViewMode("list")}
-          className={`px-2 py-1 ${viewMode === "list" ? "bg-red-200" : " "}`}
-        >
-          List
-        </button>
-        <button
-          onClick={() => setViewMode("grid")}
-          className={`px-2 py-1 ${viewMode === "grid" ? "bg-red-200" : " "}`}
-        >
-          Grid
-        </button>
-      </div>
+    <Container>
       {viewMode === "list" && (
         <div className="flex flex-col mt-5">
           {items.map((item: any) => (
@@ -55,7 +47,7 @@ const RoadmapItems = ({ items }: { items: RoadmapItem[] }) => {
         onClose={() => setIsOpen(false)}
         item={dialogItem}
       />
-    </div>
+    </Container>
   );
 };
 

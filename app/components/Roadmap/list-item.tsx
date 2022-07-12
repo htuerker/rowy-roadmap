@@ -1,7 +1,5 @@
-import { useFetcher } from "@remix-run/react";
 import type { RoadmapItem } from "~/models/RoadmapItem";
 import VoteForm from "./vote-form";
-import VoteField from "./vote-form";
 
 const ListItem = ({
   item,
