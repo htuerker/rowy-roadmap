@@ -1,6 +1,10 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { redirect } from "@remix-run/node";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({
+  request,
+}: {
+  request: Request;
+}) => {
   return redirect("/roadmap");
 };

@@ -9,67 +9,62 @@ const RoadmapNavbar = ({
   toggleViewMode,
 }: any) => {
   return (
-    <div className="navbar bg-inherit p-0 pb-1 mb-2">
+    <div className="navbar bg-inherit px-2 rounded-lg">
       <div className="flex justify-between">
         <ul className="menu menu-horizontal bg-base-200">
           <li>
-            <span>
-              <button
+            <span onClick={() => handleFilterChange("All")}>
+              <span
                 className={`px-2 ${
                   filter === "All" ? "border-b-2 border-b-primary" : " "
                 }`}
-                onClick={() => handleFilterChange("All")}
               >
                 All
-              </button>
+              </span>
             </span>
           </li>
           <li>
-            <span>
-              <button
+            <span onClick={() => handleFilterChange("Pending")}>
+              <span
                 className={`px-2 ${
                   filter === "Pending" ? "border-b-2 border-b-primary" : " "
                 }`}
-                onClick={() => handleFilterChange("Pending")}
               >
                 Pending
-              </button>
+              </span>
             </span>
           </li>
           <li>
-            <span>
-              <button
+            <span onClick={() => handleFilterChange("In Progress")}>
+              <span
                 className={`px-2 ${
                   filter === "In Progress" ? "border-b-2 border-b-primary" : " "
                 }`}
-                onClick={() => handleFilterChange("In Progress")}
               >
                 In Progress
-              </button>
+              </span>
             </span>
           </li>
           <li>
-            <span>
-              <button
+            <span onClick={() => handleFilterChange("Testing")}>
+              <span
                 className={`px-2 ${
                   filter === "Testing" ? "border-b-2 border-b-primary" : " "
                 }`}
-                onClick={() => handleFilterChange("Testing")}
               >
                 Testing
-              </button>
+              </span>
             </span>
           </li>
           <li>
-            <span>
-              <button
+            <span onClick={() => handleFilterChange("Launched")}>
+              <span
                 className={`px-2 ${
                   filter === "Launched" ? "border-b-2 border-b-primary" : " "
                 }`}
-                onClick={() => handleFilterChange("Launched")}
               >
                 Launched
-              </button>
+              </span>
             </span>
           </li>
         </ul>

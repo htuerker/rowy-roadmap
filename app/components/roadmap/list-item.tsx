@@ -9,7 +9,7 @@ import VoteForm from "./vote-form";
 
 const ListItem = ({ item }: { item: RoadmapItem }) => {
   return (
-    <div className="flex w-full overflow-hidden border-b p-2 gap-2 pointer hover:bg-base-300 rounded-lg border-none">
+    <div className="flex w-full overflow-hidden border-b p-2 gap-2 pointer hover:bg-base-300 border-none">
       <ul className="menu menu-compact bg-inherit rounded-box gap-1 items-center p-0">
         <div className="tooltip tooltip-right" data-tip="Urgent">
           <li>
@@ -41,6 +41,14 @@ const ListItem = ({ item }: { item: RoadmapItem }) => {
         <div className="flex flex-col w-full gap-1">
           <div className="flex justify-between">
             <div className="text-xl">{item.feature}</div>
+            <div className="flex items-center gap-1">
+              {item.createdBy.displayName}
+              <div className="avatar">
+                <div className="w-8 rounded-full">
+                  <img src={item.createdBy.photoURL} alt="Created By" />
+                </div>
+              </div>
+            </div>
           </div>
           <div className="select-none">
             <span className="select-none bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded dark:bg-blue-200 dark:text-blue-800">
