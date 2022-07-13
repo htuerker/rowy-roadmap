@@ -1,19 +1,12 @@
-import { useSubmit } from "@remix-run/react";
 import { ClientOnly } from "remix-utils";
 import { LogoutButton } from "../auth";
 import ThemeSwitcher from "./theme-switcher";
-import ViewSwitcher from "./view-switcher";
 
 const Navbar = ({ user, firebaseClientConfig, toggleViewMode }: any) => {
   return (
     <div className="navbar rounded-lg bg-base-200 shadow-lg">
       <div className="ml-auto">
         <ul className="menu menu-horizontal p-0 gap-1">
-          <li className="hidden md:flex">
-            <ClientOnly fallback={<></>}>
-              {() => <ViewSwitcher toggle={toggleViewMode} />}
-            </ClientOnly>
-          </li>
           <li className="hidden md:flex ">
             <ClientOnly fallback={<></>}>{() => <ThemeSwitcher />}</ClientOnly>
           </li>

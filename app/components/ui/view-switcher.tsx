@@ -1,6 +1,6 @@
 const ViewSwitcher = ({ toggle }: any) => (
   <div
-    className="tooltip tooltip-bottom p-0 flex items-center text-sm"
+    className="tooltip tooltip-top p-0 flex items-center text-sm"
     data-tip="View Mode"
   >
     <label className="swap swap-rotate p-0 px-2">

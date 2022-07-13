@@ -6,7 +6,7 @@ import Spinner from "~/components/ui/spinner";
 import RoadmapNavbar from "~/components/roadmap/roadmap-navbar";
 import Container from "~/components/ui/container";
 import { useState } from "react";
-import { RoadmapItem } from "~/models/RoadmapItem";
+import type { RoadmapItem } from "~/models/RoadmapItem";
 
 export const loader: LoaderFunction = async ({
   request,
@@ -26,6 +26,10 @@ export default function Items() {
   const [activeFilter, setActiveFilter] = useState<
     "All" | "Testing" | "In Progress" | "Launched"
   >("All");
+  const [sortBy, setSortBy] = useState<"Most Voted" | "Most Recent">(
+    "Most Voted"
+  );
+  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   if (isLoading) return <Spinner />;
 
   const filteredItems =
@@ -36,10 +40,15 @@ export default function Items() {
   return (
     <Container>
       <RoadmapNavbar
-        activeFilter={activeFilter}
+        filter={activeFilter}
         handleFilterChange={setActiveFilter}
+        sortBy={sortBy}
+        handleSortByChange={setSortBy}
+        toggleViewMode={() =>
+          setViewMode((viewMode) => (viewMode === "list" ? "grid" : "list"))
+        }
       />
-      <RoadmapItems items={filteredItems} viewMode="list" />
+      <RoadmapItems items={filteredItems} viewMode={viewMode} />
       <Outlet />
     </Container>
   );
