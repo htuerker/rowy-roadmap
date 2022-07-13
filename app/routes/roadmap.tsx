@@ -20,7 +20,7 @@ export const loader: LoaderFunction = async ({
   };
 };
 
-export default function Index() {
+export default function Roadmap() {
   const { currentUser, firebaseClientConfig } = useLoaderData();
 
   return (

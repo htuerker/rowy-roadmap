@@ -5,11 +5,12 @@ import IconChevronUp from "../svg/icon-chevron-up";
 import IconClipboardList from "../svg/icon-clipboard-list";
 import IconFire from "../svg/icon-fire";
 import IconMessage from "../svg/icon-message";
+import StatusBadge from "../ui/status-badge";
 import VoteForm from "./vote-form";
 
 const ListItem = ({ item }: { item: RoadmapItem }) => {
   return (
-    <div className="flex w-full overflow-hidden border-b p-2 gap-2 pointer hover:bg-base-300 border-none">
+    <div className="flex w-full overflow-hidden border-b-2 border-b-base-300 p-2 gap-2 hover:bg-base-300">
       <ul className="menu menu-compact bg-inherit rounded-box gap-1 items-center p-0">
         <div className="tooltip tooltip-right" data-tip="Urgent">
           <li>
@@ -27,7 +28,7 @@ const ListItem = ({ item }: { item: RoadmapItem }) => {
             </label>
           </li>
         </div>
-        <div className="tooltip tooltip-right" data-tip="Downvote">
+        <div className="tooltip tooltip-right z-10" data-tip="Downvote">
           <li>
             <label>
               <IconChevronDown />
@@ -36,29 +37,16 @@ const ListItem = ({ item }: { item: RoadmapItem }) => {
           </li>
         </div>
       </ul>
-      <div className="divider divider-horizontal ml-0"></div>
-      <Link to={`/roadmap/${item.id}`} className="w-full">
-        <div className="flex flex-col w-full gap-1">
-          <div className="flex justify-between">
-            <div className="text-xl">{item.feature}</div>
-            <div className="flex items-center gap-1">
-              {item.createdBy.displayName}
-              <div className="avatar">
-                <div className="w-8 rounded-full">
-                  <img src={item.createdBy.photoURL} alt="Created By" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="select-none">
-            <span className="select-none bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded dark:bg-blue-200 dark:text-blue-800">
-              {item.status}
-            </span>
-          </div>
-          <div className="font-light text-sm">{item.description}</div>
+      <div className="divider divider-horizontal m-0"></div>
+      <div className="flex flex-col w-full gap-1">
+        <div className="flex items-center mb-1 h-9">
+          {item.status && <StatusBadge status={item.status} />}
+          <div className="text-xl leading-9">{item.feature}</div>
         </div>
-      </Link>
-      <div className="divider divider-horizontal mr-0"></div>
+        <div className="font-light text-sm">{item.description}</div>
+      </div>
+
+      <div className="divider divider-horizontal m-0"></div>
       <ul className="menu menu-compact bg-inherit rounded-box gap-1 items-center p-0">
         <div className="tooltip tooltip-left w-full" data-tip="Votes Summary">
           <li>
@@ -71,18 +59,15 @@ const ListItem = ({ item }: { item: RoadmapItem }) => {
         </div>
         <div className="tooltip tooltip-left" data-tip="Comments">
           <li>
-            <label>
-              <Link to={`/roadmap/${item.id}/comments`} state={item}>
-                <IconMessage />
-              </Link>
-            </label>
+            <Link to={`/roadmap/${item.id}/comments`} state={item}>
+              <IconMessage />
+            </Link>
           </li>
         </div>
         <div className="tooltip tooltip-left" data-tip="Timelog">
           <li>
             <label>
               <IconClipboardList />
-              <VoteForm id={item.id} vote="Meh" />
             </label>
           </li>
         </div>

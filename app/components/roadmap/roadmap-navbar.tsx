@@ -27,7 +27,7 @@ const RoadmapNavbar = ({
             <span onClick={() => handleFilterChange("Pending")}>
               <span
                 className={`px-2 ${
-                  filter === "Pending" ? "border-b-2 border-b-primary" : " "
+                  filter === "Pending" ? `border-b-2 border-b-primary` : " "
                 }`}
               >
                 Pending

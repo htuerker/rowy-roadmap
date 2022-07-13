@@ -2,7 +2,7 @@ import { ClientOnly } from "remix-utils";
 import { LogoutButton } from "../auth";
 import ThemeSwitcher from "./theme-switcher";
 
-const Navbar = ({ user, firebaseClientConfig, toggleViewMode }: any) => {
+const Navbar = ({ user, firebaseClientConfig }: any) => {
   return (
     <div className="navbar rounded-lg bg-base-200 shadow-lg px-2 mb-3">
       <div className="ml-auto">

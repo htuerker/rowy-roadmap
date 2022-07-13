@@ -12,11 +12,10 @@ const RoadmapItems = ({
   return (
     <>
       {viewMode === "list" && (
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col">
           {items.map((item: any) => (
             <>
               <ListItem key={item.id} item={item} />
-              <div className="divider m-0"></div>
             </>
           ))}
         </div>
