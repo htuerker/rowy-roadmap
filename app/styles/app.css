@@ -3334,6 +3334,10 @@ body[dir="rtl"] .checkbox:checked,
   width: 2.5rem;
 }
 
+.w-56 {
+  width: 14rem;
+}
+
 .max-w-screen-md {
   max-width: 768px;
 }
@@ -3425,6 +3429,10 @@ body[dir="rtl"] .checkbox:checked,
 
 .border-2 {
   border-width: 2px;
+}
+
+.border {
+  border-width: 1px;
 }
 
 .border-b {

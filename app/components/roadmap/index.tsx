@@ -1,5 +1,4 @@
 import type { RoadmapItem } from "~/models/RoadmapItem";
-import Container from "../ui/container";
 import GridItem from "./grid-item";
 import ListItem from "./list-item";
 
@@ -11,7 +10,7 @@ const RoadmapItems = ({
   viewMode: "list" | "grid";
 }) => {
   return (
-    <Container>
+    <>
       {viewMode === "list" && (
         <div className="flex flex-col gap-1">
           {items.map((item: any) => (
@@ -29,7 +28,7 @@ const RoadmapItems = ({
           ))}
         </div>
       )}
-    </Container>
+    </>
   );
 };
 

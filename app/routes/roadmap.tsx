@@ -7,6 +7,7 @@ import { getUser } from "~/session.server";
 
 import Navbar from "~/components/ui/navbar";
 import { useState } from "react";
+import RoadmapNavbar from "~/components/roadmap/roadmap-navbar";
 
 export const loader: LoaderFunction = async ({
   request,

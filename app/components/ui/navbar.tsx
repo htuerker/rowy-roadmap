@@ -4,27 +4,9 @@ import { LogoutButton } from "../auth";
 import ThemeSwitcher from "./theme-switcher";
 import ViewSwitcher from "./view-switcher";
 
-const Navbar = ({
-  user,
-  firebaseClientConfig,
-  activeFilter,
-  viewMode,
-  toggleViewMode,
-}: any) => {
-  const submit = useSubmit();
+const Navbar = ({ user, firebaseClientConfig, toggleViewMode }: any) => {
   return (
     <div className="navbar rounded-lg bg-base-200 shadow-lg">
-      <ul className="menu menu-horizontal">
-        <li className={`${activeFilter === "Idea" ? "bordered" : ""}`}>
-          <a onClick={() => submit({ filter: "Idea" })}>Idea</a>
-        </li>
-        <li className={`${activeFilter === "In Progress" ? "bordered" : ""}`}>
-          <a onClick={() => submit({ filter: "In Progress" })}>In Progress</a>
-        </li>
-        <li className={`${activeFilter === "Launched" ? "bordered" : ""}`}>
-          <a onClick={() => submit({ filter: "Launched" })}>Launched</a>
-        </li>
-      </ul>
       <div className="ml-auto">
         <ul className="menu menu-horizontal p-0 gap-1">
           <li className="hidden md:flex">
