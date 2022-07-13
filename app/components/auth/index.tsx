@@ -4,20 +4,21 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 export const LoginButton = ({ firebaseConfig }: any) => {
   const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
+  // TODO error handling / web-api-key missing
   const auth = getAuth(app);
 
   const submit = useSubmit();
 
   const handleLogin = async () => {
-    await auth.signOut();
     await signInWithPopup(auth, new GoogleAuthProvider()).then(
-      (result) => {
+      (result: any) => {
         const user = result.user;
         user.getIdToken(true).then((token: string) => {
           submit({ token }, { action: "/auth/login", method: "post" });
         });
       },
-      (error) => {
+      (error: any) => {
+        // TODO error handling / auth domain missing
         throw new Error(error);
       }
     );

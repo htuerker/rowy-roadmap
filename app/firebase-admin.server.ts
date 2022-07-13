@@ -8,14 +8,15 @@ export const firebaseClientConfig = {
   authDomain: process.env.CLIENT_FIREBASE_AUTH_DOMAIN,
 };
 
-if (!process.env.SERVER_APP_FIREBASE_SERVICE_ACCOUNT) {
+// TODO error-handling
+if (!process.env.SERVER_FIREBASE_SERVICE_ACCOUNT) {
   throw new Error(
     `Environment variable "SERVER_APP_FIREBASE_SERVICE_ACCOUNT" is missing`
   );
 }
 
 const serviceAccountConfig = JSON.parse(
-  process.env.SERVER_APP_FIREBASE_SERVICE_ACCOUNT
+  process.env.SERVER_FIREBASE_SERVICE_ACCOUNT
 );
 
 const adminApp =

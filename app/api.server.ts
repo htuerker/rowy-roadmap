@@ -8,7 +8,7 @@ export async function getAll(request: Request) {
   const currentUser = await getUser(request);
   // TODO error handling
   if (!currentUser) {
-    throw redirect("/auth/login")
+    throw redirect("/auth/login");
     // throw new Error("User is not authenticated");
   }
   const itemsRef = db.collection("Roadmap");

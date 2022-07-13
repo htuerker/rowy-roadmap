@@ -1,22 +1,30 @@
 import type { LoaderFunction } from "@remix-run/node";
+import { Params, useLocation } from "@remix-run/react";
 import { Outlet, useLoaderData, useTransition } from "@remix-run/react";
-import RoadmapItems from "../../components/roadmap/index";
-import { getAll } from "~/api.server";
+import { getItem } from "~/api.server";
+import ListItem from "~/components/roadmap/list-item";
 import Spinner from "~/components/ui/spinner";
 
 export const loader: LoaderFunction = async ({
   request,
+  params,
 }: {
   request: Request;
+  params: Params;
 }) => {
-  const items = await getAll(request);
+  const { itemId } = params;
+  if (!itemId) {
+    // TODO error handling
+    throw Error("Not found!");
+  }
+  const item = await getItem(itemId);
   return {
-    items,
+    item,
   };
 };
 
 export default function Items() {
-  const { items } = useLoaderData();
+  const { item } = useLoaderData();
   const transition = useTransition();
   const isLoading = transition.state === "loading";
 
@@ -24,7 +32,7 @@ export default function Items() {
 
   return (
     <>
-      <RoadmapItems items={items} viewMode="list" />
+      <ListItem item={item} />
       <Outlet />
     </>
   );
