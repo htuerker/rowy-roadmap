@@ -15,13 +15,13 @@ export const loader: LoaderFunction = async ({ params }: any) => {
 
 export const action: ActionFunction = async ({ request }: any) => {
   const formData = await request.formData();
-  const itemId = formData.get("docId");
+  const itemId = formData.get("itemId");
   const vote = formData.get("vote");
   await createVote(request, { itemId, vote });
   return null;
 };
 
-export default function Comments() {
+export default function Votes() {
   const { item, votes }: { item: RoadmapItem; votes: Vote[] } = useLoaderData();
 
   return (

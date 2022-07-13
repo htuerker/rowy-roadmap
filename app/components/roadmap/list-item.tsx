@@ -1,42 +1,14 @@
 import { Link } from "@remix-run/react";
 import type { RoadmapItem } from "~/models/RoadmapItem";
-import IconChevronDown from "../svg/icon-chevron-down";
-import IconChevronUp from "../svg/icon-chevron-up";
 import IconClipboardList from "../svg/icon-clipboard-list";
-import IconFire from "../svg/icon-fire";
 import IconMessage from "../svg/icon-message";
 import StatusBadge from "../ui/status-badge";
-import VoteForm from "./vote-form";
+import ListItemVoteField from "./list-item-vote-field";
 
 const ListItem = ({ item }: { item: RoadmapItem }) => {
   return (
     <div className="flex w-full overflow-hidden border-b-2 border-b-base-300 p-2 gap-2 hover:bg-base-300">
-      <ul className="menu menu-compact bg-inherit rounded-box gap-1 items-center p-0">
-        <div className="tooltip tooltip-right" data-tip="Urgent">
-          <li>
-            <label>
-              <IconFire />
-              <VoteForm id={item.id} vote="Urgent" />
-            </label>
-          </li>
-        </div>
-        <div className="tooltip tooltip-right" data-tip="Upvote">
-          <li>
-            <label>
-              <IconChevronUp />
-              <VoteForm id={item.id} vote="Yes" />
-            </label>
-          </li>
-        </div>
-        <div className="tooltip tooltip-right z-10" data-tip="Downvote">
-          <li>
-            <label>
-              <IconChevronDown />
-              <VoteForm id={item.id} vote="Meh" />
-            </label>
-          </li>
-        </div>
-      </ul>
+      <ListItemVoteField item={item} />
       <div className="divider divider-horizontal m-0"></div>
       <div className="flex flex-col w-full gap-1">
         <div className="flex items-center mb-1 h-9">
@@ -59,7 +31,7 @@ const ListItem = ({ item }: { item: RoadmapItem }) => {
         </div>
         <div className="tooltip tooltip-left" data-tip="Comments">
           <li>
-            <Link to={`/roadmap/${item.id}/comments`} state={item}>
+            <Link to={`/roadmap/${item.id}/votes`} state={item}>
               <IconMessage />
             </Link>
           </li>

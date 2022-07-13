@@ -30,7 +30,14 @@ export default function Items() {
     "Most Voted"
   );
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
-  if (isLoading) return <div className="h-48 w-full"><Spinner /></div>;
+  if (isLoading)
+    return (
+      <div className="h-48 w-full">
+        <Container>
+          <Spinner />
+        </Container>
+      </div>
+    );
 
   const filteredItems =
     activeFilter === "All"

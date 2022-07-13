@@ -48,27 +48,31 @@ export async function createVote(request: Request, { itemId, vote }: any) {
     // throw new Error("User is not authenticated");
   }
 
-  const ref = db.collection("Roadmap").doc(itemId).collection("votes");
-
-  await ref.add({
-    vote,
-    comment: "test from back-end app",
-    _createdBy: currentUser,
-  });
-  // if current user has already voted
-  // update vote if it is changed
-  // else throw error
-  // return fetch(process.env.ROWY_VOTE_WEBHOOK_URL!, {
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Content-Type": "application/json",
-  //   },
-  //   method: "POST",
-  //   body: JSON.stringify({
-  //     docId: docId,
-  //     vote: "yes",
-  //   }),
-  // })
-  //   .then((response) => console.log(response))
-  //   .catch((error) => console.log(error));
+  const votesRef = db.collection("Roadmap").doc(itemId).collection("votes");
+  const userVoteRef = db
+    .collection("Roadmap")
+    .doc(itemId)
+    .collection("votes")
+    .where("_createdBy.uid", "==", currentUser.uid);
+  const userVoteSnap = await userVoteRef.get();
+  // if already voted
+  if (userVoteSnap.docs[0]) {
+    const currentVote = Vote.fromFirestore(userVoteSnap.docs[0]);
+    if (currentVote.vote !== vote) {
+      await Promise.all(
+        userVoteSnap.docs.map((doc) => doc.ref.update({ vote }))
+      );
+      // TODO handle information return to client
+    } else {
+      // TODO error handling!
+      throw new Error("Already voted");
+    }
+  } else {
+    // create new vote
+    await votesRef.add({
+      vote,
+      comment: "test comment",
+      _createdBy: currentUser,
+    });
+  }
 }
