@@ -6,24 +6,23 @@ import { UserVote } from "./models/UserVote";
 import { Vote } from "./models/Vote";
 
 export async function getAll(request: Request) {
+  // if (!currentUser) {
+  // throw redirect("/auth/login");
+  // throw new Error("User is not authenticated");
+  // }
   const currentUser = await getUser(request);
-  // TODO error handling
-  if (!currentUser) {
-    throw redirect("/auth/login");
-    // throw new Error("User is not authenticated");
-  }
   const itemsRef = db.collection("Roadmap");
-  const userVotesRef = db
-    .collectionGroup("votes")
-    .where("_createdBy.uid", "==", currentUser.uid);
+  const userVotesRef =
+    currentUser &&
+    db.collectionGroup("votes").where("_createdBy.uid", "==", currentUser.uid);
 
   const [itemsSnaphot, userVotesSnaphot] = await Promise.all([
     itemsRef.get(),
-    userVotesRef.get(),
+    userVotesRef?.get(),
   ]);
   return [
     itemsSnaphot.docs.map(RoadmapItem.fromFirestore),
-    userVotesSnaphot.docs.map(UserVote.fromFirestore),
+    userVotesSnaphot?.docs.map(UserVote.fromFirestore),
   ];
 }
 

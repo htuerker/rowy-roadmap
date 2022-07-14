@@ -1,7 +1,6 @@
 import type { RoadmapItem } from "~/models/RoadmapItem";
 import type { UserVote } from "~/models/UserVote";
 import type { Vote } from "~/models/Vote";
-import GridItem from "./grid-item";
 import ListItem from "./list-item";
 
 const RoadmapItems = ({
@@ -11,17 +10,20 @@ const RoadmapItems = ({
   items: RoadmapItem[];
   userVotes: UserVote[];
 }) => {
-  const userVoteHash = userVotes.reduce(
-    (hash: { [key: string]: Vote }, userVote: UserVote) => {
+  const userVoteHash =
+    userVotes &&
+    userVotes.reduce((hash: { [key: string]: Vote }, userVote: UserVote) => {
       hash[userVote.itemId] ||= userVote.vote;
       return hash;
-    },
-    {}
-  );
+    }, {});
   return (
     <div className="flex flex-col">
       {items.map((item: any) => (
-        <ListItem key={item.id} item={item} vote={userVoteHash[item.id]} />
+        <ListItem
+          key={item.id}
+          item={item}
+          vote={userVoteHash && userVoteHash[item.id]}
+        />
       ))}
     </div>
   );

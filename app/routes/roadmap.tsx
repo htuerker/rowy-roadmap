@@ -24,7 +24,7 @@ export default function Roadmap() {
   return (
     <>
       <Navbar user={currentUser} firebaseClientConfig={firebaseClientConfig} />
-      <Outlet />
+      <Outlet context={{ currentUser }} />
     </>
   );
 }

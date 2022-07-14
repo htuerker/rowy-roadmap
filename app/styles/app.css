@@ -3341,6 +3341,10 @@ body[dir="rtl"] .checkbox:checked,
   border-bottom-right-radius: var(--rounded-box, 1rem);
 }
 
+.visible {
+  visibility: visible;
+}
+
 .static {
   position: static;
 }
@@ -3382,6 +3386,10 @@ body[dir="rtl"] .checkbox:checked,
 
 .m-auto {
   margin: auto;
+}
+
+.m-5 {
+  margin: 1.25rem;
 }
 
 .ml-auto {
@@ -3597,6 +3605,10 @@ body[dir="rtl"] .checkbox:checked,
   justify-content: space-between;
 }
 
+.justify-evenly {
+  justify-content: space-evenly;
+}
+
 .gap-1 {
   gap: 0.25rem;
 }
@@ -3759,6 +3771,10 @@ body[dir="rtl"] .checkbox:checked,
 
 .p-2 {
   padding: 0.5rem;
+}
+
+.p-5 {
+  padding: 1.25rem;
 }
 
 .px-2 {

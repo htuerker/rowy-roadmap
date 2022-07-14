@@ -1,6 +1,7 @@
 import { useSubmit } from "@remix-run/react";
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import IconGoogle from "../svg/icon-google";
 
 export const LoginButton = ({ firebaseConfig }: any) => {
   const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
@@ -24,7 +25,14 @@ export const LoginButton = ({ firebaseConfig }: any) => {
     );
   };
 
-  return <button onClick={handleLogin}>Sign in with Google</button>;
+  return (
+    <button className="btn btn-ghost" onClick={handleLogin}>
+      <span className="flex items-center gap-1">
+        <IconGoogle />
+        <span>Sign in with Google</span>
+      </span>
+    </button>
+  );
 };
 
 export const LogoutButton = ({ firebaseConfig }: any) => {
