@@ -28,7 +28,7 @@ const ListItemVoteField = ({
       <div className="tooltip tooltip-right" data-tip="Urgent">
         <li
           className={`rounded-lg ${busy ? "disabled" : ""} ${
-            vote?.vote === "Urgent" ? "bg-primary" : ""
+            vote?.vote === "Urgent" ? "bg-primary text-primary-content" : ""
           }`}
         >
           <button
@@ -47,7 +47,7 @@ const ListItemVoteField = ({
       <div className="tooltip tooltip-right" data-tip="Upvote">
         <li
           className={`rounded-lg ${busy ? "disabled" : ""} ${
-            vote?.vote === "Yes" ? "bg-primary" : ""
+            vote?.vote === "Yes" ? "bg-primary text-primary-content" : ""
           }`}
         >
           <button
@@ -66,7 +66,7 @@ const ListItemVoteField = ({
       <div className="tooltip tooltip-right z-10" data-tip="Downvote">
         <li
           className={`rounded-lg ${busy ? "disabled" : ""} ${
-            vote?.vote === "Meh" ? "bg-primary" : ""
+            vote?.vote === "Meh" ? "bg-primary text-primary-content" : ""
           }`}
         >
           <button
