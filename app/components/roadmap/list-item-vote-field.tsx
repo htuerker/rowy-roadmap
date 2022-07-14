@@ -114,7 +114,7 @@ const ListItemVoteField = ({
               : ""
           }`}
         >
-          {vote?.vote === "Yes" ? (
+          {vote?.vote === "Meh" ? (
             <button
               disabled={busy}
               onClick={() => {
