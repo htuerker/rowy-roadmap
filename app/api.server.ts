@@ -2,6 +2,7 @@ import { redirect } from "@remix-run/node";
 import { getUser } from "~/session.server";
 import { db } from "./firebase-admin.server";
 import { RoadmapItem } from "./models/RoadmapItem";
+import { UserVote } from "./models/UserVote";
 import { Vote } from "./models/Vote";
 
 export async function getAll(request: Request) {
@@ -12,20 +13,18 @@ export async function getAll(request: Request) {
     // throw new Error("User is not authenticated");
   }
   const itemsRef = db.collection("Roadmap");
-  const snapshot = await itemsRef.get();
-  return snapshot.docs.map(RoadmapItem.fromFirestore);
-  // const userVotesRef = db
-  //   .collectionGroup("votes")
-  //   .where("_createdBy.uid", "==", currentUser.uid);
+  const userVotesRef = db
+    .collectionGroup("votes")
+    .where("_createdBy.uid", "==", currentUser.uid);
 
-  // const [itemsSnaphot, userVotesSnaphot] = await Promise.all([
-  //   itemsRef.get(),
-  //   userVotesRef.get(),
-  // ]);
-  // return [
-  //   itemsSnaphot.docs.map(RoadmapItem.fromFirestore),
-  //   userVotesSnaphot.docs.map(Vote.fromFirestore),
-  // ];
+  const [itemsSnaphot, userVotesSnaphot] = await Promise.all([
+    itemsRef.get(),
+    userVotesRef.get(),
+  ]);
+  return [
+    itemsSnaphot.docs.map(RoadmapItem.fromFirestore),
+    userVotesSnaphot.docs.map(UserVote.fromFirestore),
+  ];
 }
 
 export async function getItem(id: string) {
@@ -55,20 +54,21 @@ export async function createVote(request: Request, { itemId, vote }: any) {
     .collection("votes")
     .where("_createdBy.uid", "==", currentUser.uid);
   const userVoteSnap = await userVoteRef.get();
-  // if already voted
   if (userVoteSnap.docs[0]) {
+    // alrady voted
     const currentVote = Vote.fromFirestore(userVoteSnap.docs[0]);
     if (currentVote.vote !== vote) {
+      // update vote if changed
       await Promise.all(
         userVoteSnap.docs.map((doc) => doc.ref.update({ vote }))
       );
-      // TODO handle information return to client
     } else {
-      // TODO error handling!
-      throw new Error("Already voted");
+      // delete vote if
+      await Promise.all(userVoteSnap.docs.map((doc) => doc.ref.delete()));
     }
   } else {
     // create new vote
+    // TODO add timestamps
     await votesRef.add({
       vote,
       comment: "test comment",

@@ -12,10 +12,8 @@ export const loader: LoaderFunction = async ({
   request: Request;
 }) => {
   const currentUser = await getUser(request);
-  const items = await getAll(request);
   return {
     currentUser,
-    items,
     firebaseClientConfig,
   };
 };

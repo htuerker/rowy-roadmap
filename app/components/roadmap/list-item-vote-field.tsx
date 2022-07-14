@@ -1,11 +1,18 @@
 import { useFetcher } from "@remix-run/react";
 import type { RoadmapItem } from "~/models/RoadmapItem";
+import type { Vote } from "~/models/Vote";
 import IconChevronDown from "../svg/icon-chevron-down";
 import IconChevronUp from "../svg/icon-chevron-up";
 import IconFire from "../svg/icon-fire";
 import Spinner from "../ui/spinner";
 
-const ListItemVoteField = ({ item }: { item: RoadmapItem }) => {
+const ListItemVoteField = ({
+  item,
+  vote,
+}: {
+  item: RoadmapItem;
+  vote?: Vote;
+}) => {
   const fetcher = useFetcher();
   const busy = fetcher.state !== "idle";
 
@@ -19,7 +26,11 @@ const ListItemVoteField = ({ item }: { item: RoadmapItem }) => {
         <Spinner />
       </div>
       <div className="tooltip tooltip-right" data-tip="Urgent">
-        <li className={`${busy ? "disabled" : ""}`}>
+        <li
+          className={`rounded-lg ${busy ? "disabled" : ""} ${
+            vote?.vote === "Urgent" ? "bg-primary" : ""
+          }`}
+        >
           <button
             disabled={busy}
             onClick={() => {
@@ -34,7 +45,11 @@ const ListItemVoteField = ({ item }: { item: RoadmapItem }) => {
         </li>
       </div>
       <div className="tooltip tooltip-right" data-tip="Upvote">
-        <li className={`${busy ? "disabled" : ""}`}>
+        <li
+          className={`rounded-lg ${busy ? "disabled" : ""} ${
+            vote?.vote === "Yes" ? "bg-primary" : ""
+          }`}
+        >
           <button
             disabled={busy}
             onClick={() => {
@@ -49,7 +64,11 @@ const ListItemVoteField = ({ item }: { item: RoadmapItem }) => {
         </li>
       </div>
       <div className="tooltip tooltip-right z-10" data-tip="Downvote">
-        <li className={`${busy ? "disabled" : ""}`}>
+        <li
+          className={`rounded-lg ${busy ? "disabled" : ""} ${
+            vote?.vote === "Meh" ? "bg-primary" : ""
+          }`}
+        >
           <button
             disabled={busy}
             onClick={() => {

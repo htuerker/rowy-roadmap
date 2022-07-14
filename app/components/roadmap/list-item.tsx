@@ -1,14 +1,15 @@
 import { Link } from "@remix-run/react";
 import type { RoadmapItem } from "~/models/RoadmapItem";
+import type { Vote } from "~/models/Vote";
 import IconClipboardList from "../svg/icon-clipboard-list";
 import IconMessage from "../svg/icon-message";
 import StatusBadge from "../ui/status-badge";
 import ListItemVoteField from "./list-item-vote-field";
 
-const ListItem = ({ item }: { item: RoadmapItem }) => {
+const ListItem = ({ item, vote }: { item: RoadmapItem; vote?: Vote }) => {
   return (
     <div className="flex w-full overflow-hidden border-b-2 border-b-base-300 p-2 gap-2 hover:bg-base-300">
-      <ListItemVoteField item={item} />
+      <ListItemVoteField item={item} vote={vote} />
       <div className="divider divider-horizontal m-0"></div>
       <div className="flex flex-col w-full gap-1">
         <div className="flex items-center mb-1 h-9">

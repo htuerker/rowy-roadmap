@@ -13,14 +13,16 @@ export const loader: LoaderFunction = async ({
 }: {
   request: Request;
 }) => {
-  const items = await getAll(request);
+  const [items, userVotes] = await getAll(request);
+  console.log(userVotes);
   return {
     items,
+    userVotes,
   };
 };
 
 export default function Items() {
-  const { items } = useLoaderData();
+  const { items, userVotes } = useLoaderData();
   const transition = useTransition();
   const isLoading = transition.state === "loading";
   const [activeFilter, setActiveFilter] = useState<
@@ -55,7 +57,11 @@ export default function Items() {
           setViewMode((viewMode) => (viewMode === "list" ? "grid" : "list"))
         }
       />
-      <RoadmapItems items={filteredItems} viewMode={viewMode} />
+      <RoadmapItems
+        items={filteredItems}
+        userVotes={userVotes}
+        viewMode={viewMode}
+      />
       <Outlet />
     </Container>
   );
