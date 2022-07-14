@@ -25,10 +25,15 @@ const ListItemVoteField = ({
       >
         <Spinner />
       </div>
-      <div className="tooltip tooltip-right" data-tip="Urgent">
+      <div
+        className="tooltip tooltip-right"
+        data-tip={vote?.vote === "Urgent" ? "Unvote" : "Urgent"}
+      >
         <li
           className={`rounded-lg ${busy ? "disabled" : ""} ${
-            vote?.vote === "Urgent" ? "bg-primary text-primary-content" : ""
+            vote?.vote === "Urgent"
+              ? "bg-primary hover:bg-primary-focus text-primary-content"
+              : ""
           }`}
         >
           <button
@@ -44,10 +49,15 @@ const ListItemVoteField = ({
           </button>
         </li>
       </div>
-      <div className="tooltip tooltip-right" data-tip="Upvote">
+      <div
+        className="tooltip tooltip-right"
+        data-tip={vote?.vote === "Yes" ? "Unvote" : "Upvote"}
+      >
         <li
           className={`rounded-lg ${busy ? "disabled" : ""} ${
-            vote?.vote === "Yes" ? "bg-primary text-primary-content" : ""
+            vote?.vote === "Yes"
+              ? "bg-primary hover:bg-primary-focus text-primary-content"
+              : ""
           }`}
         >
           <button
@@ -63,10 +73,15 @@ const ListItemVoteField = ({
           </button>
         </li>
       </div>
-      <div className="tooltip tooltip-right z-10" data-tip="Downvote">
+      <div
+        className="tooltip tooltip-right"
+        data-tip={vote?.vote === "Meh" ? "Unvote" : "Downvote"}
+      >
         <li
           className={`rounded-lg ${busy ? "disabled" : ""} ${
-            vote?.vote === "Meh" ? "bg-primary text-primary-content" : ""
+            vote?.vote === "Meh"
+              ? "bg-red-600 hover:bg-red-400 text-primary-content"
+              : ""
           }`}
         >
           <button

@@ -19,9 +19,6 @@ export class UserVote {
     if (!itemId) {
       throw new Error("Vote must be a subcollection");
     }
-    return new UserVote(
-      snapshot.ref.parent?.parent?.id,
-      Vote.fromFirestore(snapshot)
-    );
+    return new UserVote(itemId, Vote.fromFirestore(snapshot));
   }
 }

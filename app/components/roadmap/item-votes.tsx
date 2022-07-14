@@ -24,7 +24,7 @@ const ItemVotes = ({ item, votes }: { item: RoadmapItem; votes: Vote[] }) => {
                 </div>
               </div>
               <div className="flex flex-col justify-center">
-                <div>{vote.createdBy.name}</div>
+                <div className="font-bold">{vote.createdBy.name}</div>
                 <div>{vote.comment ?? `Voted ${vote.vote}!`}</div>
               </div>
             </div>

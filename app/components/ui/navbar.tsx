@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import { ClientOnly } from "remix-utils";
 import { LogoutButton } from "../auth";
 import ThemeSwitcher from "./theme-switcher";
@@ -5,6 +6,12 @@ import ThemeSwitcher from "./theme-switcher";
 const Navbar = ({ user, firebaseClientConfig }: any) => {
   return (
     <div className="navbar rounded-lg bg-base-200 shadow-lg px-2 mb-3">
+      <Link to="/roadmap">
+        <div className="flex flex-col justify-start select-none hover:bg-base-300 rounded-lg px-4 py-1">
+          <span className="text-2xl font-bold">Roadmap</span>
+          <span className="text-xs">Powered by Rowy</span>
+        </div>
+      </Link>
       <div className="ml-auto">
         <ul className="menu menu-horizontal p-0 gap-1">
           <li className="hidden md:flex ">
