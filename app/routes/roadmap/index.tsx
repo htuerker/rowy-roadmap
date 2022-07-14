@@ -14,7 +14,6 @@ export const loader: LoaderFunction = async ({
   request: Request;
 }) => {
   const [items, userVotes] = await getAll(request);
-  console.log(userVotes);
   return {
     items,
     userVotes,
@@ -31,7 +30,6 @@ export default function Items() {
   const [sortBy, setSortBy] = useState<"Most Voted" | "Most Recent">(
     "Most Voted"
   );
-  const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   if (isLoading)
     return (
       <div className="h-48 w-full">
@@ -53,15 +51,8 @@ export default function Items() {
         handleFilterChange={setActiveFilter}
         sortBy={sortBy}
         handleSortByChange={setSortBy}
-        toggleViewMode={() =>
-          setViewMode((viewMode) => (viewMode === "list" ? "grid" : "list"))
-        }
       />
-      <RoadmapItems
-        items={filteredItems}
-        userVotes={userVotes}
-        viewMode={viewMode}
-      />
+      <RoadmapItems items={filteredItems} userVotes={userVotes} />
       <Outlet />
     </Container>
   );

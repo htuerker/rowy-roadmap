@@ -13,11 +13,11 @@ const VoteFormModal = ({ item, vote, onSubmit, icon }: any) => {
         id={`vote-form-${item.id}-${vote}`}
         className="modal-toggle"
       />
-      <div className="modal text-left bg-base-300/80">
+      <div className="modal text-left bg-base-300/80 p-0">
         <div className="modal-box rounded-lg">
           <label
             htmlFor={`vote-form-${item.id}-${vote}`}
-            className="btn btn-sm bg-error/80 hover:bg-error/100 border-none btn-circle absolute right-2 top-2 text-white"
+            className="btn btn-sm bg-error/80 hover:bg-error/100 border-none btn-circle block ml-auto text-white leading-8"
           >
             ✕
           </label>

@@ -19,7 +19,7 @@ const ListItemVoteField = ({
   const busy = fetcher.state !== "idle";
 
   return (
-    <ul className="menu menu-compact bg-inherit rounded-box gap-1 items-center p-0 relative">
+    <ul className="menu menu-compact bg-inherit rounded-box gap-1 items-center p-0 flex-row md:flex-col justify-between">
       <div
         className={`${
           busy ? "block" : "hidden"
@@ -104,7 +104,7 @@ const ListItemVoteField = ({
         </li>
       </div>
       <div
-        className="tooltip tooltip-right"
+        className="tooltip tooltip-left md:tooltip-right"
         data-tip={vote?.vote === "Meh" ? "Unvote" : "Downvote"}
       >
         <li

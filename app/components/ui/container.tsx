@@ -1,5 +1,5 @@
 const Container = ({ children }: any) => (
-  <div className="w-full h-full bg-base-200 rounded-lg shadow-lg">
+  <div className="w-full h-full bg-base-100 rounded-lg shadow-md">
     {children}
   </div>
 );

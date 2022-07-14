@@ -3,8 +3,12 @@ import type { Vote } from "~/models/Vote";
 
 const ItemVotes = ({ item, votes }: { item: RoadmapItem; votes: Vote[] }) => {
   return (
-    <div>
-      <div className="px-2 pl-6 mb-5">{item.description}</div>
+    <div className="mt-5">
+      <div className="px-1 md:px-2 md:pl-6 text-xl">
+        <div className="inline-flex"></div>
+        <div className="text-xl inline-flex leading-9">{item.feature}</div>
+        <div className="mb-5 text-sm">{item.description}</div>
+      </div>
       {votes.length === 0 ? (
         <div>No Votes yet!</div>
       ) : (
@@ -12,7 +16,7 @@ const ItemVotes = ({ item, votes }: { item: RoadmapItem; votes: Vote[] }) => {
           {votes.map((vote, index) => (
             <div
               key={index}
-              className="flex w-full overflow-hidden border-b-2 border-b-base-300 px-2 pl-6 py-4 gap-2 hover:bg-base-300"
+              className="px-1 md:px-2 md:pl-6 flex w-full overflow-hidden border-b-2 border-b-base-300 py-4 gap-2 hover:bg-base-300"
             >
               <div className="avatar">
                 <div className="w-12 rounded-full">

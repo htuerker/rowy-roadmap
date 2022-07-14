@@ -5,32 +5,47 @@ import ThemeSwitcher from "./theme-switcher";
 
 const Navbar = ({ user, firebaseClientConfig }: any) => {
   return (
-    <div className="navbar rounded-lg bg-base-200 shadow-lg px-2 mb-3">
+    <div className="navbar bg-base-100 shadow-md px-2 md:mb-3 md:rounded-lg">
       <Link to="/roadmap">
-        <div className="flex flex-col justify-start select-none hover:bg-base-300 rounded-lg px-4 py-1">
+        <div className="flex flex-col justify-start select-none rounded-lg px-4 py-1">
           <span className="text-2xl font-bold">Roadmap</span>
           <span className="text-xs">Powered by Rowy</span>
         </div>
       </Link>
       <div className="ml-auto">
-        <ul className="menu menu-horizontal p-0 gap-1">
-          <li className="hidden md:flex ">
-            <ClientOnly fallback={<></>}>{() => <ThemeSwitcher />}</ClientOnly>
-          </li>
-          <li tabIndex={0}>
-            <div tabIndex={0} className="btn btn-ghost normal-case py-1.5 px-3">
-              <div className="hidden md:block">{user.name}</div>
-              <div className="h-full overflow-hidden rounded-full ring ring-primary ring-offset-base-100">
-                <img className="h-full" src={`${user.picture}`} alt="profile" />
-              </div>
+        <div className="dropdown dropdown-end">
+          <label
+            tabIndex={0}
+            className="btn btn-ghost hover:bg-base-200 focus:bg-base-200 rounded-btn gap-2"
+          >
+            <div className="hidden md:block">{user.name}</div>
+            <div className="block sm:hidden">{user.name.slice(0, 6)}...</div>
+            <div className="h-9 overflow-hidden rounded-full ring ring-primary ring-offset-base-100">
+              {/* TODO solve user data consistency */}
+              <img
+                className="h-full"
+                src={`${user.picture ?? user.photoURL}`}
+                alt="profile"
+              />
             </div>
-            <ul className="bg-base-100">
-              <li>
-                <LogoutButton firebaseConfig={firebaseClientConfig} />
-              </li>
-            </ul>
-          </li>
-        </ul>
+          </label>
+          <ul
+            tabIndex={0}
+            className="menu menu-compact dropdown-content shadow bg-base-200 mt-1"
+          >
+            <li>
+              <label className="gap-0 justify-between">
+                <div>Switch theme:</div>
+                <ClientOnly fallback={<></>}>
+                  {() => <ThemeSwitcher />}
+                </ClientOnly>
+              </label>
+            </li>
+            <li>
+              <LogoutButton firebaseConfig={firebaseClientConfig} />
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

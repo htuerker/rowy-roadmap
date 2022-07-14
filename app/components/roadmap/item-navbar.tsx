@@ -5,16 +5,16 @@ import StatusBadge from "../ui/status-badge";
 
 const ItemNavbar = ({ item }: { item: RoadmapItem }) => {
   return (
-    <div className="navbar rounded-lg bg-base-200">
-      <ul className="menu menu-horizontal rounded-box bg-base-200 gap-1 w-full">
+    <div className="navbar rounded-lg border-b-2 border-b-base-200 rounded-b-none pb-0">
+      <ul className="menu menu-horizontal rounded-box gap-1 w-full">
         <li className="rounded-l-lg">
           <Link to="/roadmap">
             <IconArrowLeft />
           </Link>
         </li>
-        <li>{item.status && <StatusBadge status={item.status} />}</li>
-        <li className="text-xl">{item.feature}</li>
-        <li className="text-xl ml-auto">Target Release</li>
+        <div className="ml-auto">
+          {item.status && <StatusBadge status={item.status} />}
+        </div>
       </ul>
     </div>
   );
