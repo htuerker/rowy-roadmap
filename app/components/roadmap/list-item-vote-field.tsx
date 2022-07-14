@@ -1,10 +1,12 @@
 import { useFetcher } from "@remix-run/react";
+import { useRef } from "react";
 import type { RoadmapItem } from "~/models/RoadmapItem";
 import type { Vote } from "~/models/Vote";
 import IconChevronDown from "../svg/icon-chevron-down";
 import IconChevronUp from "../svg/icon-chevron-up";
 import IconFire from "../svg/icon-fire";
 import Spinner from "../ui/spinner";
+import VoteFormModal from "./vote-form-modal";
 
 const ListItemVoteField = ({
   item,
@@ -36,17 +38,31 @@ const ListItemVoteField = ({
               : ""
           }`}
         >
-          <button
-            disabled={busy}
-            onClick={() => {
-              fetcher.submit(
-                { itemId: item.id, vote: "Urgent" },
-                { action: `/roadmap/${item.id}/votes`, method: "post" }
-              );
-            }}
-          >
-            <IconFire />
-          </button>
+          {vote?.vote === "Urgent" ? (
+            <button
+              disabled={busy}
+              onClick={() => {
+                fetcher.submit(
+                  { itemId: item.id, vote: "Urgent" },
+                  { action: `/roadmap/${item.id}/votes`, method: "post" }
+                );
+              }}
+            >
+              <IconFire />
+            </button>
+          ) : (
+            <VoteFormModal
+              item={item}
+              icon={<IconFire />}
+              vote={"Urgent"}
+              onSubmit={(comment: string) =>
+                fetcher.submit(
+                  { itemId: item.id, vote: "Urgent", comment },
+                  { action: `/roadmap/${item.id}/votes`, method: "post" }
+                )
+              }
+            />
+          )}
         </li>
       </div>
       <div
@@ -60,17 +76,31 @@ const ListItemVoteField = ({
               : ""
           }`}
         >
-          <button
-            disabled={busy}
-            onClick={() => {
-              fetcher.submit(
-                { itemId: item.id, vote: "Yes" },
-                { action: `/roadmap/${item.id}/votes`, method: "post" }
-              );
-            }}
-          >
-            <IconChevronUp />
-          </button>
+          {vote?.vote === "Yes" ? (
+            <button
+              disabled={busy}
+              onClick={() => {
+                fetcher.submit(
+                  { itemId: item.id, vote: "Yes" },
+                  { action: `/roadmap/${item.id}/votes`, method: "post" }
+                );
+              }}
+            >
+              <IconChevronUp />
+            </button>
+          ) : (
+            <VoteFormModal
+              item={item}
+              icon={<IconChevronUp />}
+              vote={"Yes"}
+              onSubmit={(comment: string) =>
+                fetcher.submit(
+                  { itemId: item.id, vote: "Yes", comment },
+                  { action: `/roadmap/${item.id}/votes`, method: "post" }
+                )
+              }
+            />
+          )}
         </li>
       </div>
       <div
@@ -84,17 +114,31 @@ const ListItemVoteField = ({
               : ""
           }`}
         >
-          <button
-            disabled={busy}
-            onClick={() => {
-              fetcher.submit(
-                { itemId: item.id, vote: "Meh" },
-                { action: `/roadmap/${item.id}/votes`, method: "post" }
-              );
-            }}
-          >
-            <IconChevronDown />
-          </button>
+          {vote?.vote === "Yes" ? (
+            <button
+              disabled={busy}
+              onClick={() => {
+                fetcher.submit(
+                  { itemId: item.id, vote: "Meh" },
+                  { action: `/roadmap/${item.id}/votes`, method: "post" }
+                );
+              }}
+            >
+              <IconChevronDown />
+            </button>
+          ) : (
+            <VoteFormModal
+              item={item}
+              icon={<IconChevronDown />}
+              vote={"Meh"}
+              onSubmit={(comment: string) =>
+                fetcher.submit(
+                  { itemId: item.id, vote: "Meh", comment },
+                  { action: `/roadmap/${item.id}/votes`, method: "post" }
+                )
+              }
+            />
+          )}
         </li>
       </div>
     </ul>

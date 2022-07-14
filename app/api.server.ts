@@ -39,7 +39,10 @@ export async function getVotes(id: string) {
   return snapshot.docs.map(Vote.fromFirestore);
 }
 
-export async function createVote(request: Request, { itemId, vote }: any) {
+export async function createVote(
+  request: Request,
+  { itemId, vote, comment }: any
+) {
   const currentUser = await getUser(request);
   // TODO error handling / redirect to login
   if (!currentUser) {
@@ -71,7 +74,7 @@ export async function createVote(request: Request, { itemId, vote }: any) {
     // TODO add timestamps
     await votesRef.add({
       vote,
-      comment: "test comment",
+      comment,
       _createdBy: currentUser,
     });
   }

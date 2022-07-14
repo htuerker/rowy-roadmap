@@ -17,7 +17,8 @@ export const action: ActionFunction = async ({ request }: any) => {
   const formData = await request.formData();
   const itemId = formData.get("itemId");
   const vote = formData.get("vote");
-  await createVote(request, { itemId, vote });
+  const comment = formData.get("comment");
+  await createVote(request, { itemId, vote, comment });
   return null;
 };
 
