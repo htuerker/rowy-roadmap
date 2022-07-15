@@ -3349,12 +3349,21 @@ body[dir="rtl"] .checkbox:checked,
   position: static;
 }
 
+.fixed {
+  position: fixed;
+}
+
 .absolute {
   position: absolute;
 }
 
 .relative {
   position: relative;
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
 }
 
 .inset-0 {
@@ -3370,6 +3379,18 @@ body[dir="rtl"] .checkbox:checked,
 
 .top-2 {
   top: 0.5rem;
+}
+
+.bottom-0 {
+  bottom: 0px;
+}
+
+.bottom-10 {
+  bottom: 2.5rem;
+}
+
+.-bottom-10 {
+  bottom: -2.5rem;
 }
 
 .z-50 {
@@ -3508,6 +3529,18 @@ body[dir="rtl"] .checkbox:checked,
   height: 0px;
 }
 
+.h-auto {
+  height: auto;
+}
+
+.h-36 {
+  height: 9rem;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
 .w-full {
   width: 100%;
 }
@@ -3621,8 +3654,28 @@ body[dir="rtl"] .checkbox:checked,
   gap: 0px;
 }
 
+.gap-5 {
+  gap: 1.25rem;
+}
+
 .overflow-hidden {
   overflow: hidden;
+}
+
+.overflow-scroll {
+  overflow: scroll;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
 }
 
 .rounded-lg {
@@ -3777,6 +3830,10 @@ body[dir="rtl"] .checkbox:checked,
   padding: 1.25rem;
 }
 
+.p-10 {
+  padding: 2.5rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -3916,6 +3973,21 @@ body[dir="rtl"] .checkbox:checked,
 
 .text-inherit {
   color: inherit;
+}
+
+.text-neutral-content {
+  --tw-text-opacity: 1;
+  color: hsl(var(--nc) / var(--tw-text-opacity));
+}
+
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
+}
+
+.text-base-content {
+  --tw-text-opacity: 1;
+  color: hsl(var(--bc) / var(--tw-text-opacity));
 }
 
 .shadow-lg {
@@ -4073,6 +4145,14 @@ body[dir="rtl"] .checkbox:checked,
     bottom: auto;
   }
 
+  .md\:fixed {
+    position: fixed;
+  }
+
+  .md\:absolute {
+    position: absolute;
+  }
+
   .md\:mx-auto {
     margin-left: auto;
     margin-right: auto;
@@ -4084,6 +4164,26 @@ body[dir="rtl"] .checkbox:checked,
 
   .md\:mb-3 {
     margin-bottom: 0.75rem;
+  }
+
+  .md\:mb-2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .md\:mb-5 {
+    margin-bottom: 1.25rem;
+  }
+
+  .md\:mb-10 {
+    margin-bottom: 2.5rem;
+  }
+
+  .md\:mb-12 {
+    margin-bottom: 3rem;
+  }
+
+  .md\:mb-8 {
+    margin-bottom: 2rem;
   }
 
   .md\:block {
@@ -4132,11 +4232,40 @@ body[dir="rtl"] .checkbox:checked,
     padding-right: 0.5rem;
   }
 
+  .md\:py-10 {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
   .md\:pl-6 {
     padding-left: 1.5rem;
   }
 
   .md\:pt-10 {
     padding-top: 2.5rem;
+  }
+
+  .md\:pb-2 {
+    padding-bottom: 0.5rem;
+  }
+
+  .md\:pb-0 {
+    padding-bottom: 0px;
+  }
+
+  .md\:pb-20 {
+    padding-bottom: 5rem;
+  }
+
+  .md\:pb-12 {
+    padding-bottom: 3rem;
+  }
+
+  .md\:pb-10 {
+    padding-bottom: 2.5rem;
+  }
+
+  .md\:pb-8 {
+    padding-bottom: 2rem;
   }
 }

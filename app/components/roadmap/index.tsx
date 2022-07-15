@@ -1,6 +1,7 @@
 import type { RoadmapItem } from "~/models/RoadmapItem";
 import type { UserVote } from "~/models/UserVote";
 import type { Vote } from "~/models/Vote";
+import IconEmptyClipboard from "../svg/icon-empty-clipboard";
 import ListItem from "./list-item";
 
 const RoadmapItems = ({
@@ -18,13 +19,22 @@ const RoadmapItems = ({
     }, {});
   return (
     <div className="flex flex-col">
-      {items.map((item: any) => (
-        <ListItem
-          key={item.id}
-          item={item}
-          vote={userVoteHash && userVoteHash[item.id]}
-        />
-      ))}
+      {items.length > 0 ? (
+        items.map((item: any) => (
+          <ListItem
+            key={item.id}
+            item={item}
+            vote={userVoteHash && userVoteHash[item.id]}
+          />
+        ))
+      ) : (
+        <div className="flex flex-col justify-center items-center gap-5 p-10 text-base-content">
+          <IconEmptyClipboard className="w-12 h-12" />
+          <span className="text-xl font-light">
+            There's nothing to show here!
+          </span>
+        </div>
+      )}
     </div>
   );
 };
