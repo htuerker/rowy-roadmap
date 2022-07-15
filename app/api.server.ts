@@ -2,6 +2,7 @@ import { redirect } from "@remix-run/node";
 import { getUser } from "~/session.server";
 import { db } from "./firebase-admin.server";
 import { RoadmapItem } from "./models/RoadmapItem";
+import { Timelog } from "./models/Timelog";
 import { User } from "./models/User";
 import { UserVote } from "./models/UserVote";
 import { Vote } from "./models/Vote";
@@ -33,6 +34,12 @@ export async function getVotes(id: string) {
   const ref = db.collection("Roadmap").doc(id).collection("votes");
   const snapshot = await ref.get();
   return snapshot.docs.map(Vote.fromFirestore);
+}
+
+export async function getTimelog(id: string) {
+  const ref = db.collection("Roadmap").doc(id).collection("timelog");
+  const snapshot = await ref.get();
+  return snapshot.docs.map(Timelog.fromFirestore);
 }
 
 export async function createVote(

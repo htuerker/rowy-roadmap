@@ -50,9 +50,9 @@ const ListItem = ({ item, vote }: { item: RoadmapItem; vote?: Vote }) => {
         </div>
         <div className="tooltip tooltip-left" data-tip="Timelog">
           <li>
-            <label>
+            <Link to={`/roadmap/${item.id}/timelog`} state={item}>
               <IconClipboardList />
-            </label>
+            </Link>
           </li>
         </div>
       </ul>
