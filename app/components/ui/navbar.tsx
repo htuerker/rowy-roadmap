@@ -1,5 +1,6 @@
 import { Link } from "@remix-run/react";
 import { ClientOnly } from "remix-utils";
+import type { User } from "~/models/User";
 import { LoginButton, LogoutButton } from "../auth";
 import ThemeSwitcher from "./theme-switcher";
 
@@ -7,8 +8,7 @@ const Navbar = ({
   user,
   firebaseClientConfig,
 }: {
-  // TODO: update user
-  user: any;
+  user: User;
   firebaseClientConfig: any;
 }) => {
   return (
@@ -28,13 +28,15 @@ const Navbar = ({
               tabIndex={0}
               className="btn btn-ghost hover:bg-base-200 focus:bg-base-200 rounded-btn gap-2"
             >
-              <div className="hidden md:block">{user.name}</div>
-              <div className="block sm:hidden">{user.name.slice(0, 6)}...</div>
+              <div className="hidden md:block">{user.displayName}</div>
+              <div className="block sm:hidden">
+                {user.displayName.slice(0, 6)}...
+              </div>
               <div className="h-9 overflow-hidden rounded-full ring ring-primary ring-offset-base-100">
                 {/* TODO solve user data consistency */}
                 <img
                   className="h-full"
-                  src={`${user.picture ?? user.photoURL}`}
+                  src={`${user.photoURL}`}
                   alt="profile"
                 />
               </div>

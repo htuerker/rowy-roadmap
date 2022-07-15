@@ -1,6 +1,8 @@
 import { useSubmit } from "@remix-run/react";
 import { getApp, getApps, initializeApp } from "firebase/app";
+import type { UserCredential } from "firebase/auth";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useState } from "react";
 import IconGoogle from "../svg/icon-google";
 
 export const LoginButton = ({ firebaseConfig }: any) => {
@@ -9,10 +11,12 @@ export const LoginButton = ({ firebaseConfig }: any) => {
   const auth = getAuth(app);
 
   const submit = useSubmit();
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+    setLoading(true);
     await signInWithPopup(auth, new GoogleAuthProvider()).then(
-      (result: any) => {
+      (result: UserCredential) => {
         const user = result.user;
         user.getIdToken(true).then((token: string) => {
           submit({ token }, { action: "/auth/login", method: "post" });
@@ -26,7 +30,7 @@ export const LoginButton = ({ firebaseConfig }: any) => {
   };
 
   return (
-    <button className="btn btn-ghost" onClick={handleLogin}>
+    <button className="btn btn-ghost" onClick={handleLogin} disabled={loading}>
       <span className="flex items-center gap-1">
         <IconGoogle />
         <span>Sign in with Google</span>

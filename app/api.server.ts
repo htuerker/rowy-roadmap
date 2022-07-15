@@ -6,10 +6,6 @@ import { UserVote } from "./models/UserVote";
 import { Vote } from "./models/Vote";
 
 export async function getAll(request: Request) {
-  // if (!currentUser) {
-  // throw redirect("/auth/login");
-  // throw new Error("User is not authenticated");
-  // }
   const currentUser = await getUser(request);
   const itemsRef = db.collection("Roadmap");
   const userVotesRef =

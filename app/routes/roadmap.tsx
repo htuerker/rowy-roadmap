@@ -1,7 +1,6 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { firebaseClientConfig } from "~/firebase-admin.server";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { getAll } from "~/api.server";
 import { getUser } from "~/session.server";
 
 import Navbar from "~/components/ui/navbar";

@@ -1,18 +1,37 @@
-import type {
-  QueryDocumentSnapshot,
-  DocumentSnapshot,
-} from "firebase-admin/firestore";
+import type { Timestamp, DocumentData } from "firebase-admin/firestore";
+import type { DecodedIdToken } from "firebase-admin/auth";
 
 export class User {
-  constructor() {}
+  constructor(
+    readonly displayName: string,
+    readonly email: string,
+    readonly emailVerified: boolean,
+    readonly photoURL: string,
+    readonly roles: String[],
+    readonly uid: string,
+    // required for audit users
+    readonly timestamp?: Timestamp
+  ) {}
 
-  static fromFirestore(
-    snapshot: QueryDocumentSnapshot | DocumentSnapshot
-  ): User {
-    const data = snapshot.data();
-    if (!data) {
-      throw new Error("Invalid RoadmapItem");
-    }
-    return new User();
+  static fromAuditField(data: DocumentData): User {
+    return new User(
+      data.displayName,
+      data.email,
+      data.emailVerified,
+      data.photoURL,
+      data.roles,
+      data.uid,
+      data.timestamp
+    );
+  }
+  static fromDecodedIdToken(decodedIdToken: DecodedIdToken): User {
+    return new User(
+      decodedIdToken.name,
+      decodedIdToken.email ?? "",
+      decodedIdToken.email_verified ?? false,
+      decodedIdToken.picture ?? "",
+      decodedIdToken.roles ?? [],
+      decodedIdToken.uid
+    );
   }
 }

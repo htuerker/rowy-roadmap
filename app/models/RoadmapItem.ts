@@ -2,6 +2,7 @@ import type {
   QueryDocumentSnapshot,
   DocumentSnapshot,
 } from "firebase-admin/firestore";
+import { User } from "./User";
 
 export class RoadmapItem {
   constructor(
@@ -10,8 +11,8 @@ export class RoadmapItem {
     readonly description: string,
     readonly status: string,
     readonly votesSummary: any,
-    readonly updatedBy: any,
-    readonly createdBy: any
+    readonly updatedBy: User,
+    readonly createdBy: User
   ) {}
 
   static fromFirestore(
@@ -27,8 +28,8 @@ export class RoadmapItem {
       data.description,
       data.status,
       data.votesSummary,
-      data._updatedBy,
-      data._createdBy
+      User.fromAuditField(data._createdBy),
+      User.fromAuditField(data._updatedBy)
     );
   }
 }

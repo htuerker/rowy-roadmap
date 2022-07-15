@@ -1,6 +1,7 @@
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 
 import { auth } from "./firebase-admin.server";
+import { User } from "./models/User";
 
 const sessionSecret = process.env.SESSION_SECRET;
 if (!sessionSecret) {
@@ -36,7 +37,7 @@ export async function getUser(request: Request) {
     return null;
   }
   return auth.verifyIdToken(token).then(
-    (user) => user,
+    (decodedIdToken) => User.fromDecodedIdToken(decodedIdToken),
     async (error) => {
       throw await logout(request);
     }

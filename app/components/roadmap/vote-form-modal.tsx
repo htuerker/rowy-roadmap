@@ -1,10 +1,11 @@
 import { useOutletContext } from "@remix-run/react";
 import { useState } from "react";
+import type { User } from "~/models/User";
 import { LoginButton } from "../auth";
 
 const VoteFormModal = ({ item, vote, onSubmit, icon }: any) => {
   const [commentInput, setCommentInput] = useState("");
-  const { currentUser }: { currentUser: any } = useOutletContext();
+  const { currentUser }: { currentUser: User } = useOutletContext();
 
   return (
     <>

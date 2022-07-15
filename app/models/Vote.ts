@@ -1,15 +1,17 @@
 import type {
   QueryDocumentSnapshot,
   DocumentSnapshot,
+  Timestamp,
 } from "firebase-admin/firestore";
+import { User } from "./User";
 
 export class Vote {
   constructor(
     readonly vote: string,
     readonly comment: string,
     readonly email: string,
-    readonly createdAt: any,
-    readonly createdBy: any
+    readonly createdAt: Timestamp,
+    readonly createdBy: User
   ) {}
 
   static fromFirestore(
@@ -24,7 +26,7 @@ export class Vote {
       data.comment,
       data.email,
       data._createdAt,
-      data._createdBy
+      User.fromAuditField(data._createdBy)
     );
   }
   static toFirestore(object: Vote) {}

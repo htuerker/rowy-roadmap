@@ -22,13 +22,13 @@ const ItemVotes = ({ item, votes }: { item: RoadmapItem; votes: Vote[] }) => {
                 <div className="w-12 rounded-full">
                   {/* TODO solve user data consistency */}
                   <img
-                    src={vote.createdBy.photoURL ?? vote.createdBy.picture}
+                    src={vote.createdBy.photoURL ?? vote.createdBy.photoURL}
                     alt="Created by"
                   />
                 </div>
               </div>
               <div className="flex flex-col justify-center">
-                <div className="font-bold">{vote.createdBy.name}</div>
+                <div className="font-bold">{vote.createdBy.displayName}</div>
                 <div>{vote.comment ?? `Voted ${vote.vote}!`}</div>
               </div>
             </div>
