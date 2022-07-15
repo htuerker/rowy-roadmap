@@ -2,6 +2,7 @@ import { redirect } from "@remix-run/node";
 import { getUser } from "~/session.server";
 import { db } from "./firebase-admin.server";
 import { RoadmapItem } from "./models/RoadmapItem";
+import { User } from "./models/User";
 import { UserVote } from "./models/UserVote";
 import { Vote } from "./models/Vote";
 
@@ -66,11 +67,10 @@ export async function createVote(
     }
   } else {
     // create new vote
-    // TODO add timestamps
     await votesRef.add({
       vote,
       comment,
-      _createdBy: currentUser,
+      _createdBy: User.toFirestore(currentUser),
     });
   }
 }

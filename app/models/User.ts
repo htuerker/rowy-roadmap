@@ -1,4 +1,4 @@
-import type { Timestamp, DocumentData } from "firebase-admin/firestore";
+import type { DocumentData } from "firebase-admin/firestore";
 import type { DecodedIdToken } from "firebase-admin/auth";
 
 export class User {
@@ -9,8 +9,8 @@ export class User {
     readonly photoURL: string,
     readonly roles: String[],
     readonly uid: string,
-    // required for audit users
-    readonly timestamp?: Timestamp
+    // required for audit fields
+    readonly date?: Date
   ) {}
 
   static fromAuditField(data: DocumentData): User {
@@ -21,7 +21,8 @@ export class User {
       data.photoURL,
       data.roles,
       data.uid,
-      data.timestamp
+      // required for audit fields
+      data.timestamp?.toDate()
     );
   }
   static fromDecodedIdToken(decodedIdToken: DecodedIdToken): User {
@@ -33,5 +34,15 @@ export class User {
       decodedIdToken.roles ?? [],
       decodedIdToken.uid
     );
+  }
+  static toFirestore(user: User): any {
+    return {
+      displayName: user.displayName,
+      email: user.email,
+      emailVerified: user.emailVerified,
+      photoURL: user.photoURL,
+      roles: user.roles,
+      uid: user.uid,
+    };
   }
 }

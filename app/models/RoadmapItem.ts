@@ -2,6 +2,7 @@ import type {
   QueryDocumentSnapshot,
   DocumentSnapshot,
 } from "firebase-admin/firestore";
+import type { VotesSummary } from "~/types";
 import { User } from "./User";
 
 export class RoadmapItem {
@@ -10,7 +11,7 @@ export class RoadmapItem {
     readonly feature: string,
     readonly description: string,
     readonly status: string,
-    readonly votesSummary: any,
+    readonly votesSummary: VotesSummary,
     readonly updatedBy: User,
     readonly createdBy: User
   ) {}
