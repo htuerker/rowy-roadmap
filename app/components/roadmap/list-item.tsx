@@ -12,7 +12,7 @@ const ListItem = ({ item, vote }: { item: RoadmapItem; vote?: Vote }) => {
     item.votesSummary.Meh +
     2 * item.votesSummary.Urgent;
   return (
-    <div className="w-full overflow-hidden border-b-2 border-b-base-200 p-2 hover:bg-base-200 gap-1 md:gap-2 flex flex-col md:flex-row ">
+    <div className="w-full overflow-hidden border-b-2 border-b-base-200 px-2 py-4 hover:bg-base-200 gap-1 md:gap-2 flex flex-col md:flex-row ">
       <ListItemVoteField item={item} vote={vote} />
       <div className="divider divider-horizontal m-0"></div>
       <div className="flex flex-col w-full">

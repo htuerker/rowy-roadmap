@@ -27,7 +27,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="w-screen h-screen bg-base-200 overflow-hidden">
+      <body className="w-full h-auto min-h-screen bg-base-200 overflow-y-auto">
         <div className="max-w-screen-md md:mx-auto md:pt-10">
           <Outlet />
           <ScrollRestoration />
