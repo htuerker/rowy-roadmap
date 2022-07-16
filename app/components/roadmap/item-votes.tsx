@@ -20,11 +20,7 @@ const ItemVotes = ({ item, votes }: { item: RoadmapItem; votes: Vote[] }) => {
             >
               <div className="avatar">
                 <div className="w-12 rounded-full">
-                  {/* TODO solve user data consistency */}
-                  <img
-                    src={vote.createdBy.photoURL ?? vote.createdBy.photoURL}
-                    alt="Created by"
-                  />
+                  <img src={vote.createdBy.photoURL} alt="Created by" />
                 </div>
               </div>
               <div className="flex flex-col justify-center">

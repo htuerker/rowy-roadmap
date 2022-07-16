@@ -33,7 +33,6 @@ const Navbar = ({
                 {user.displayName.slice(0, 6)}...
               </div>
               <div className="h-9 overflow-hidden rounded-full ring ring-primary ring-offset-base-100">
-                {/* TODO solve user data consistency */}
                 <img
                   className="h-full"
                   src={`${user.photoURL}`}
