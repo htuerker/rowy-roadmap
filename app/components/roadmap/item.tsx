@@ -1,19 +1,18 @@
 import { Link } from "@remix-run/react";
 import type { RoadmapItem } from "~/models/RoadmapItem";
 import type { Vote } from "~/models/Vote";
-import IconClipboardList from "../svg/icon-clipboard-list";
-import IconMessage from "../svg/icon-message";
+import { IconClipboardList, IconMessage } from "../svg";
 import StatusBadge from "../ui/status-badge";
-import ListItemVoteField from "./list-item-vote-field";
+import VoteButtons from "./vote-buttons";
 
-const ListItem = ({ item, vote }: { item: RoadmapItem; vote?: Vote }) => {
+const Item = ({ item, vote }: { item: RoadmapItem; vote?: Vote }) => {
   const score =
     item.votesSummary.Yes -
     item.votesSummary.Meh +
     2 * item.votesSummary.Urgent;
   return (
     <div className="w-full overflow-hidden border-b-2 border-b-base-200 px-2 py-4 hover:bg-base-200 gap-1 md:gap-2 flex flex-col md:flex-row ">
-      <ListItemVoteField item={item} vote={vote} />
+      <VoteButtons item={item} activeVote={vote} />
       <div className="divider divider-horizontal m-0"></div>
       <div className="flex flex-col w-full">
         <div className="text-xl leading-9">
@@ -60,4 +59,4 @@ const ListItem = ({ item, vote }: { item: RoadmapItem; vote?: Vote }) => {
   );
 };
 
-export default ListItem;
+export default Item;

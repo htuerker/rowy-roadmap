@@ -1,9 +1,9 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData, useTransition } from "@remix-run/react";
-import RoadmapItems from "../../components/roadmap/index";
+import RoadmapItems from "../../components/roadmap/items";
 import { getAll } from "~/api.server";
 import Spinner from "~/components/ui/spinner";
-import RoadmapNavbar from "~/components/roadmap/roadmap-navbar";
+import ItemsNavbar from "~/components/roadmap/items-navbar";
 import Container from "~/components/ui/container";
 import { useState } from "react";
 import type { RoadmapItem } from "~/models/RoadmapItem";
@@ -46,7 +46,7 @@ export default function Items() {
 
   return (
     <Container>
-      <RoadmapNavbar
+      <ItemsNavbar
         filter={activeFilter}
         handleFilterChange={setActiveFilter}
         sortBy={sortBy}

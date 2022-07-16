@@ -1,10 +1,10 @@
 import type { RoadmapItem } from "~/models/RoadmapItem";
 import type { UserVote } from "~/models/UserVote";
 import type { Vote } from "~/models/Vote";
-import IconEmptyClipboard from "../svg/icon-empty-clipboard";
-import ListItem from "./list-item";
+import { IconEmptyClipboard } from "../svg";
+import Item from "./item";
 
-const RoadmapItems = ({
+const Items = ({
   items,
   userVotes,
 }: {
@@ -21,7 +21,7 @@ const RoadmapItems = ({
     <div className="flex flex-col">
       {items.length > 0 ? (
         items.map((item: any) => (
-          <ListItem
+          <Item
             key={item.id}
             item={item}
             vote={userVoteHash && userVoteHash[item.id]}
@@ -39,4 +39,4 @@ const RoadmapItems = ({
   );
 };
 
-export default RoadmapItems;
+export default Items;

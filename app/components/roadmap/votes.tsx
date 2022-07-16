@@ -1,7 +1,7 @@
 import type { RoadmapItem } from "~/models/RoadmapItem";
 import type { Vote } from "~/models/Vote";
 
-const ItemVotes = ({ item, votes }: { item: RoadmapItem; votes: Vote[] }) => {
+const Votes = ({ item, votes }: { item: RoadmapItem; votes: Vote[] }) => {
   return (
     <div className="mt-5">
       <div className="px-1 md:px-2 md:pl-6 text-xl">
@@ -35,4 +35,4 @@ const ItemVotes = ({ item, votes }: { item: RoadmapItem; votes: Vote[] }) => {
   );
 };
 
-export default ItemVotes;
+export default Votes;

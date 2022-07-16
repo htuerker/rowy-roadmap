@@ -1,5 +1,5 @@
 import type { RoadmapItem } from "~/models/RoadmapItem";
-import type { Timelog } from "~/models/Timelog";
+import type { TimelogItem } from "~/models/TimelogItem";
 
 import DiffMatchPatch from "diff-match-patch";
 
@@ -16,12 +16,12 @@ export const generateDiffText = (before: string, after: string) => {
     return <span className="text-green-500">{diff[1]}</span>;
   });
 };
-const ItemTimelog = ({
+const Timelog = ({
   item,
   timelog,
 }: {
   item: RoadmapItem;
-  timelog: Timelog[];
+  timelog: TimelogItem[];
 }) => {
   return (
     <div className="mt-5">
@@ -72,4 +72,4 @@ const ItemTimelog = ({
   );
 };
 
-export default ItemTimelog;
+export default Timelog;

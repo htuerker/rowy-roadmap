@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import type { RoadmapItem } from "~/models/RoadmapItem";
-import IconArrowLeft from "../svg/icon-arrow-left";
+import { IconArrowLeft } from "../svg/index";
 import StatusBadge from "../ui/status-badge";
 
 const ItemNavbar = ({ item }: { item: RoadmapItem }) => {

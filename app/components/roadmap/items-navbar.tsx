@@ -1,4 +1,4 @@
-const RoadmapNavbar = ({
+const ItemsNavbar = ({
   filter,
   handleFilterChange,
   sortBy,
@@ -152,4 +152,4 @@ const RoadmapNavbar = ({
   );
 };
 
-export default RoadmapNavbar;
+export default ItemsNavbar;
