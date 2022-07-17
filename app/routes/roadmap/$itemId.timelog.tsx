@@ -22,7 +22,7 @@ export default function Timelog() {
   return (
     <Container>
       <ItemNavbar item={item} />
-      <ItemTimelog item={item} timelog={timelog} />
+      <ItemTimelog timelog={timelog} />
       <Outlet />
     </Container>
   );

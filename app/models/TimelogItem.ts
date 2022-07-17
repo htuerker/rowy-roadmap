@@ -4,16 +4,16 @@ import type {
 } from "firebase-admin/firestore";
 import { User } from "./User";
 
-export class Timelog {
+export class TimelogItem {
   constructor(readonly actor: User, readonly changedFields: any[]) {}
 
   static fromFirestore(
     snapshot: QueryDocumentSnapshot | DocumentSnapshot
-  ): Timelog {
+  ): TimelogItem {
     const data = snapshot.data();
     if (!data) {
       throw new Error("Invalid Timelog");
     }
-    return new Timelog(User.fromAuditField(data.actor), data.changedFields);
+    return new TimelogItem(User.fromAuditField(data.actor), data.changedFields);
   }
 }

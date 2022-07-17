@@ -2,7 +2,7 @@ import { redirect } from "@remix-run/node";
 import { getUser } from "~/session.server";
 import { db } from "./firebase-admin.server";
 import { RoadmapItem } from "./models/RoadmapItem";
-import { Timelog } from "./models/Timelog";
+import { TimelogItem } from "./models/TimelogItem";
 import { User } from "./models/User";
 import { UserVote } from "./models/UserVote";
 import { Vote } from "./models/Vote";
@@ -39,7 +39,7 @@ export async function getVotes(id: string) {
 export async function getTimelog(id: string) {
   const ref = db.collection("Roadmap").doc(id).collection("timelog");
   const snapshot = await ref.get();
-  return snapshot.docs.map(Timelog.fromFirestore);
+  return snapshot.docs.map(TimelogItem.fromFirestore);
 }
 
 export async function createVote(
