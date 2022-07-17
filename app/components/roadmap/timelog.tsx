@@ -1,8 +1,8 @@
-import type { RoadmapItem } from "~/models/RoadmapItem";
 import type { TimelogItem } from "~/models/TimelogItem";
+import StatusBadge from "../ui/status-badge";
+
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
-import StatusBadge from "../ui/status-badge";
 
 dayjs.extend(localizedFormat);
 
@@ -19,13 +19,17 @@ const Timelog = ({ timelog }: { timelog: TimelogItem[] }) => {
     </>
   );
 
-  const parseChange = (field: { fielKey: string; before: any; after: any }) => {
-    if (field.fielKey === "status") {
+  const parseChange = (field: {
+    fieldKey: string;
+    before: any;
+    after: any;
+  }) => {
+    if (field.fieldKey === "status") {
       if (!field.after) {
         return (
           <span>
             removed
-            <span className="inline-flex px-2 py-1 mx-1 rounded-lg bg-base-200 font-bold">
+            <span className="inline-flex px-2 py-1 mx-1 rounded-lg bg-base-200 text-sm">
               Status
             </span>
           </span>
@@ -34,7 +38,7 @@ const Timelog = ({ timelog }: { timelog: TimelogItem[] }) => {
       return (
         <span>
           updated
-          <span className="inline-flex px-2 py-1 mx-1 rounded-lg bg-base-200 font-bold">
+          <span className="inline-flex px-2 py-1 mx-1 rounded-lg bg-base-200 text-sm">
             Status
           </span>
           to
@@ -44,23 +48,23 @@ const Timelog = ({ timelog }: { timelog: TimelogItem[] }) => {
         </span>
       );
     }
-    if (field.fielKey === "feature" || field.fielKey === "description") {
+    if (field.fieldKey === "feature" || field.fieldKey === "description") {
       return (
         <span>
           updated
-          <span className="inline-flex px-2 py-1 mx-1 rounded-lg bg-base-200 font-bold">
-            {field.fielKey === "feature" ? "Feature" : "Description"}
+          <span className="inline-flex px-2 py-1 mx-1 rounded-lg bg-base-200 text-sm">
+            {field.fieldKey === "feature" ? "Feature" : "Description"}
           </span>
           {generateTextDiffField(field.before, field.after)}
         </span>
       );
     }
-    if (field.fielKey === "targetRelease") {
+    if (field.fieldKey === "targetRelease") {
       if (!field.after) {
         return (
           <span>
             removed
-            <span className="inline-flex px-2 py-1 mx-1 rounded-lg bg-base-200 font-bold">
+            <span className="inline-flex px-2 py-1 mx-1 rounded-lg bg-base-200 text-sm">
               Target Release
             </span>
           </span>
@@ -69,15 +73,17 @@ const Timelog = ({ timelog }: { timelog: TimelogItem[] }) => {
       return (
         <span>
           updated
-          <span className="inline-flex px-2 py-1 mx-1 rounded-lg bg-base-200 font-bold">
+          <span className="inline-flex px-2 py-1 mx-1 rounded-lg bg-base-200 text-sm">
             Target Release
           </span>
           to
-          {dayjs.unix(field.after._seconds).format("LL")}
+          <span className="inline-flex px-2 py-1 mx-1 rounded-lg bg-base-200 text-sm">
+            {dayjs.unix(field.after._seconds).format("LL")}
+          </span>
         </span>
       );
     }
-    return null;
+    return JSON.stringify(field);
   };
 
   const groupByDate: { [key: string]: TimelogItem[] } = timelog.reduce(
@@ -95,35 +101,40 @@ const Timelog = ({ timelog }: { timelog: TimelogItem[] }) => {
 
   return (
     <div className="mt-5">
+      <div className="text-xl py-2 px-1 md:pl-6">Timeline</div>
       <div className="flex flex-col relative pl-12 overflow-hidden">
         <div className="absolute w-1 left-6 h-full pt-2 pb-12">
           <div className="w-1 h-full bg-primary"></div>
           {/* Timelog Line */}
         </div>
-        {Object.keys(groupByDate).map((dateKey: string, index: number) => {
-          return (
-            <div key={`0-${index}`} className="relative mb-10 select-none">
-              <div className="absolute top-2 w-5 h-5 -left-8 rounded-full bg-primary">
-                {/* Timelog dot */}
+        {Object.keys(groupByDate)
+          .sort((key1, key2) => (dayjs(key1) > dayjs(key2) ? -1 : 1))
+          .map((dateKey: string, index: number) => {
+            return (
+              <div key={`0-${index}`} className="relative mb-10 select-none">
+                <div className="absolute top-2 w-5 h-5 -left-8 rounded-full bg-primary">
+                  {/* Timelog dot */}
+                </div>
+                <div className="inline-flex px-2 py-1 -ml-1 font-bold">
+                  {dateKey}
+                </div>
+                <div className="flex mt-2 flex-col gap-1">
+                  {groupByDate[dateKey]
+                    .sort((log1: TimelogItem, log2: TimelogItem) =>
+                      log1.actor.date! > log2.actor.date! ? -1 : 1
+                    )
+                    .map((log: TimelogItem, index: number) => (
+                      <div key={`1-${index}`}>
+                        <span className="inline-flex py-1 mx-1 font-bold">
+                          {log.actor.displayName}
+                        </span>
+                        {log.changedFields.map((field) => parseChange(field))}
+                      </div>
+                    ))}
+                </div>
               </div>
-              <div className="inline-flex px-2 py-1 -ml-1 rounded-lg bg-base-200 font-bold">
-                {dateKey}
-              </div>
-              <div className="flex flex-col gap-1">
-                {groupByDate[dateKey]
-                  .sort((log1: TimelogItem, log2: TimelogItem) =>
-                    log1.actor.date! > log2.actor.date! ? -1 : 1
-                  )
-                  .map((log: TimelogItem, index: number) => (
-                    <div key={`1-${index}`}>
-                      <span className="font-bold">{log.actor.displayName}</span>{" "}
-                      {log.changedFields.map((field) => parseChange(field))}
-                    </div>
-                  ))}
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );

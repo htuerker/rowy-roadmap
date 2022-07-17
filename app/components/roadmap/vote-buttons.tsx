@@ -28,7 +28,7 @@ const VoteButtons = ({
   };
 
   return (
-    <ul className="menu menu-compact bg-inherit rounded-box gap-1 items-center p-0 flex-row md:flex-col justify-between relative">
+    <ul className="menu menu-compact bg-inherit rounded-box gap-1 items-center p-0 flex-row md:flex-col justify-between md:justify-start relative">
       {busy && (
         <div className="absolute inset-0 bg-base-300/30 z-50 rounded-lg">
           <Spinner />

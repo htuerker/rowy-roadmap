@@ -52,8 +52,8 @@ const ItemsNavbar = ({
                   filter === "Completed" ? "border-l-4 border-l-primary" : ""
                 }`}
               >
-                <button onClick={() => handleFilterChange("Completed")}>
-                  Completed
+                <button onClick={() => handleFilterChange("Complete")}>
+                  Complete
                 </button>
               </li>
             </ul>
@@ -103,13 +103,13 @@ const ItemsNavbar = ({
             </span>
           </li>
           <li className="hidden md:inline-block">
-            <span onClick={() => handleFilterChange("Launched")}>
+            <span onClick={() => handleFilterChange("Complete")}>
               <span
                 className={`px-2 ${
                   filter === "Launched" ? "border-b-2 border-b-primary" : " "
                 }`}
               >
-                Launched
+                Complete
               </span>
             </span>
           </li>

@@ -25,7 +25,7 @@ export default function Items() {
   const transition = useTransition();
   const isLoading = transition.state === "loading";
   const [activeFilter, setActiveFilter] = useState<
-    "All" | "Testing" | "In Progress" | "Launched"
+    "All" | "Testing" | "In Progress" | "Complete"
   >("All");
   const [sortBy, setSortBy] = useState<"Most Voted" | "Most Recent">(
     "Most Voted"
@@ -39,10 +39,24 @@ export default function Items() {
       </div>
     );
 
+  const calculateScore = (item: RoadmapItem) =>
+    item.votesSummary.Yes -
+    item.votesSummary.Meh +
+    2 * item.votesSummary.Urgent;
+
   const filteredItems =
     activeFilter === "All"
       ? items
       : items.filter((item: RoadmapItem) => item.status === activeFilter);
+
+  const sortedItems =
+    sortBy === "Most Voted"
+      ? filteredItems.sort((item1: RoadmapItem, item2: RoadmapItem) =>
+          calculateScore(item1) > calculateScore(item2) ? -1 : 1
+        )
+      : filteredItems.sort((item1: RoadmapItem, item2: RoadmapItem) =>
+          item1.createdBy.date! > item2.createdBy.date! ? -1 : 1
+        );
 
   return (
     <Container>
@@ -52,7 +66,7 @@ export default function Items() {
         sortBy={sortBy}
         handleSortByChange={setSortBy}
       />
-      <RoadmapItems items={filteredItems} userVotes={userVotes} />
+      <RoadmapItems items={sortedItems} userVotes={userVotes} />
       <Outlet />
     </Container>
   );

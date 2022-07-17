@@ -5,6 +5,11 @@ import { IconClipboardList, IconMessage } from "../svg";
 import StatusBadge from "../ui/status-badge";
 import VoteButtons from "./vote-buttons";
 
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
+
+dayjs.extend(localizedFormat);
+
 const Item = ({ item, vote }: { item: RoadmapItem; vote?: Vote }) => {
   const score =
     item.votesSummary.Yes -
@@ -22,10 +27,25 @@ const Item = ({ item, vote }: { item: RoadmapItem; vote?: Vote }) => {
           <div className="inline-flex">{item.feature}</div>
         </div>
         <div className="font-light text-sm">{item.description}</div>
+        <div className="flex flex-wrap justify-between mt-auto text-sm gap-1 pt-2">
+          <div className="font-light">
+            Created at:
+            <span className="inline-flex px-2 py-1 mx-1 rounded-lg bg-base-300 text-sm font-normal">
+              {dayjs(item.createdBy.date).format("LL")}
+            </span>
+          </div>
+          {item.targetRelease && (
+            <div className="font-light">
+              Target Release:
+              <span className="inline-flex px-2 py-1 mx-1 rounded-lg bg-base-300 text-sm font-normal">
+                {dayjs(item.targetRelease).format("LL")}
+              </span>
+            </div>
+          )}
+        </div>
       </div>
-
       <div className="divider divider-horizontal m-0"></div>
-      <ul className="menu menu-compact bg-inherit rounded-box gap-1 items-center p-0 flex-row md:flex-col justify-between">
+      <ul className="menu menu-compact bg-inherit rounded-box gap-1 items-center p-0 flex-row md:flex-col justify-between md:justify-start">
         <div
           className="tooltip tooltip-right md:tooltip-left"
           data-tip="Votes Summary"
