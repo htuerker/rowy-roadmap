@@ -28,7 +28,7 @@ const Navbar = ({
               tabIndex={0}
               className="btn btn-ghost hover:bg-base-200 focus:bg-base-200 rounded-btn gap-2"
             >
-              <div className="hidden md:block">{user.displayName}</div>
+              <div className="hidden sm:block">{user.displayName}</div>
               <div className="block sm:hidden">
                 {user.displayName.slice(0, 6)}...
               </div>
