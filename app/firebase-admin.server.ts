@@ -8,23 +8,20 @@ export const firebaseClientConfig = {
   authDomain: process.env.CLIENT_FIREBASE_AUTH_DOMAIN,
 };
 
-// TODO error-handling
-if (!process.env.SERVER_FIREBASE_SERVICE_ACCOUNT) {
-  throw new Error(
-    `Environment variable "SERVER_APP_FIREBASE_SERVICE_ACCOUNT" is missing`
-  );
+const serviceAccountConfig: {} | null = process.env
+  .SERVER_FIREBASE_SERVICE_ACCOUNT
+  ? JSON.parse(process.env.SERVER_FIREBASE_SERVICE_ACCOUNT)
+  : null;
+
+let adminApp;
+if (serviceAccountConfig) {
+  adminApp =
+    getApps().length === 0
+      ? admin.initializeApp({
+          credential: admin.credential.cert({ ...serviceAccountConfig }),
+        })
+      : getApp();
 }
 
-const serviceAccountConfig = JSON.parse(
-  process.env.SERVER_FIREBASE_SERVICE_ACCOUNT
-);
-
-const adminApp =
-  getApps().length === 0
-    ? admin.initializeApp({
-        credential: admin.credential.cert({ ...serviceAccountConfig }),
-      })
-    : getApp();
-
-export const db = getFirestore(adminApp);
-export const auth = admin.auth(adminApp);
+export const db = adminApp ? getFirestore(adminApp) : null;
+export const auth = adminApp ? admin.auth(adminApp) : null;

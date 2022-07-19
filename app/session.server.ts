@@ -3,10 +3,7 @@ import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import { auth } from "./firebase-admin.server";
 import { User } from "./models/User";
 
-const sessionSecret = process.env.SESSION_SECRET;
-if (!sessionSecret) {
-  throw new Error("SESSION_SECRET must be set");
-}
+const sessionSecret = process.env.SESSION_SECRET ?? "";
 
 const storage = createCookieSessionStorage({
   cookie: {
