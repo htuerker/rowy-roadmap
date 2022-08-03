@@ -3,6 +3,7 @@ import StatusBadge from "../ui/status-badge";
 
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import { IconEmptyClipboard } from "../svg";
 
 dayjs.extend(localizedFormat);
 
@@ -98,6 +99,15 @@ const Timelog = ({ timelog }: { timelog: TimelogItem[] }) => {
     },
     {}
   );
+
+  if(timelog.length < 1) {
+    return (
+      <div className="flex flex-col justify-center items-center gap-5 p-10 text-base-content">
+        <IconEmptyClipboard className="w-12 h-12" />
+        <span className="text-xl font-light">No activity yet!</span>
+      </div>
+    )
+  }
 
   return (
     <div className="mt-5">
