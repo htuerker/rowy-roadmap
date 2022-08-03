@@ -33,7 +33,7 @@ export const LoginButton = ({ firebaseConfig }: any) => {
     <button className="btn btn-ghost" onClick={handleLogin} disabled={loading}>
       <span className="flex items-center gap-1">
         <IconGoogle />
-        <span>Sign in with Google</span>
+        <span className="w-20 sm:w-full overflow-hidden text-ellipsis whitespace-nowrap">Sign in with Google</span>
       </span>
     </button>
   );

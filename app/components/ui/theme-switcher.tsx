@@ -7,8 +7,9 @@ const ThemeSwitcher = () => {
   useEffect(() => {
     themeChange(false);
   }, []);
-
-  const isDark = () =>
+  
+  const localTheme = localStorage.getItem("theme")
+  const isDark = () => localTheme ? localTheme === "dark" : 
     window.matchMedia("(prefers-color-scheme: dark)").matches;
 
   return (
@@ -32,7 +33,7 @@ const ThemeSwitcher = () => {
 
         <svg
           className={`${
-            isDark() ? "swap-off" : "swap-on"
+            isDark() ? "swap-on" : "swap-off"
           } fill-current w-7 h-7`}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -42,7 +43,7 @@ const ThemeSwitcher = () => {
 
         <svg
           className={`${
-            isDark() ? "swap-on" : "swap-off"
+            isDark() ? "swap-off" : "swap-on"
           } fill-current w-7 h-7`}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"

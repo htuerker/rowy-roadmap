@@ -20,18 +20,18 @@ const Navbar = ({
         </div>
       </Link>
       <div className="ml-auto">
+        <ClientOnly fallback={<></>}>
+          {() => <ThemeSwitcher />}
+        </ClientOnly>
         {user === null ? (
-          <LoginButton firebaseConfig={firebaseClientConfig} />
+            <LoginButton firebaseConfig={firebaseClientConfig} />
         ) : (
           <div className="dropdown dropdown-end">
             <label
               tabIndex={0}
               className="btn btn-ghost hover:bg-base-200 focus:bg-base-200 rounded-btn gap-2"
             >
-              <div className="hidden sm:block">{user.displayName}</div>
-              <div className="block sm:hidden">
-                {user.displayName.slice(0, 6)}...
-              </div>
+              <div className="w-12 inline-block sm:w-fit sm:max-w-[8rem] text-ellipsis whitespace-nowrap overflow-hidden">{user.displayName}</div>
               <div className="h-9 overflow-hidden rounded-full ring ring-primary ring-offset-base-100">
                 <img
                   className="h-full"
@@ -44,14 +44,6 @@ const Navbar = ({
               tabIndex={0}
               className="menu menu-compact dropdown-content shadow bg-base-200 mt-1"
             >
-              <li>
-                <label className="gap-0 justify-between">
-                  <div>Switch theme:</div>
-                  <ClientOnly fallback={<></>}>
-                    {() => <ThemeSwitcher />}
-                  </ClientOnly>
-                </label>
-              </li>
               <li>
                 <LogoutButton firebaseConfig={firebaseClientConfig} />
               </li>
