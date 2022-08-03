@@ -1,7 +1,7 @@
 import type { LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData, useTransition } from "@remix-run/react";
 import RoadmapItems from "../../components/roadmap/items";
-import { getAll } from "~/api.server";
+import { getStatusOptions, getAll } from "~/api.server";
 import Spinner from "~/components/ui/spinner";
 import ItemsNavbar from "~/components/roadmap/items-navbar";
 import Container from "~/components/ui/container";
@@ -13,23 +13,29 @@ export const loader: LoaderFunction = async ({
 }: {
   request: Request;
 }) => {
-  const [items, userVotes] = await getAll(request);
+  const url = new URL(request.url);
+  const status = url.searchParams.get("status");
+  console.log(url.searchParams);
+  const [[items, userVotes], statusOptions] = await Promise.all([
+    getAll(request, { status }),
+    getStatusOptions(),
+  ]);
   return {
     items,
     userVotes,
+    status,
+    statusOptions,
   };
 };
 
 export default function Items() {
-  const { items, userVotes } = useLoaderData();
+  const { items, userVotes, status, statusOptions } = useLoaderData();
   const transition = useTransition();
-  const isLoading = transition.state === "loading";
-  const [activeFilter, setActiveFilter] = useState<
-    "All" | "Testing" | "In Progress" | "Complete"
-  >("All");
+  const isLoading = transition.state == "loading";
   const [sortBy, setSortBy] = useState<"Most Voted" | "Most Recent">(
     "Most Voted"
   );
+  
   if (isLoading)
     return (
       <div className="h-48 w-full">
@@ -44,29 +50,32 @@ export default function Items() {
     item.votesSummary.Meh +
     2 * item.votesSummary.Urgent;
 
-  const filteredItems =
-    activeFilter === "All"
-      ? items
-      : items.filter((item: RoadmapItem) => item.status === activeFilter);
-
   const sortedItems =
     sortBy === "Most Voted"
-      ? filteredItems.sort((item1: RoadmapItem, item2: RoadmapItem) =>
+      ? items.sort((item1: RoadmapItem, item2: RoadmapItem) =>
           calculateScore(item1) > calculateScore(item2) ? -1 : 1
         )
-      : filteredItems.sort((item1: RoadmapItem, item2: RoadmapItem) =>
+      : items.sort((item1: RoadmapItem, item2: RoadmapItem) =>
           item1.createdBy.date! > item2.createdBy.date! ? -1 : 1
         );
 
   return (
     <Container>
       <ItemsNavbar
-        filter={activeFilter}
-        handleFilterChange={setActiveFilter}
+        activeStatus={status ?? "All"}
+        statusOptions={["All", ...statusOptions]}
         sortBy={sortBy}
         handleSortByChange={setSortBy}
       />
-      <RoadmapItems items={sortedItems} userVotes={userVotes} />
+      {transition.state === "submitting" ? (
+        <div className="h-48 w-full">
+          <Container>
+            <Spinner />
+          </Container>
+        </div>
+      ) : (
+        <RoadmapItems items={sortedItems} userVotes={userVotes} />
+      )}
       <Outlet />
     </Container>
   );

@@ -1,3 +1,4 @@
+import { collectionName, schemaName } from "./constants/index";
 import { redirect } from "@remix-run/node";
 import { getUser } from "~/session.server";
 import { db } from "./firebase-admin.server";
@@ -7,9 +8,32 @@ import { User } from "./models/User";
 import { UserVote } from "./models/UserVote";
 import { Vote } from "./models/Vote";
 
-export async function getAll(request: Request) {
+export async function getSchema() {
+  const schemaRef = db
+    .collection("_rowy_")
+    .doc("settings")
+    .collection("schema")
+    .doc(schemaName);
+  const schemaSnapshot = await schemaRef.get();
+  return schemaSnapshot.data();
+}
+export async function getStatusOptions() {
+  const schema = await getSchema();
+  if (!schema) {
+    throw new Error("Couldn't find schema!");
+  }
+  const options = schema.columns?.status?.config?.options;
+  return options;
+}
+
+export async function getAll(
+  request: Request,
+  options?: { status?: string | null }
+) {
   const currentUser = await getUser(request);
-  const itemsRef = db.collection("Roadmap");
+  const itemsRef = options?.status
+    ? db.collection(collectionName).where("status", "==", options.status)
+    : db.collection(collectionName);
   const userVotesRef =
     currentUser &&
     db.collectionGroup("votes").where("_createdBy.uid", "==", currentUser.uid);

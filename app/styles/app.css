@@ -3510,6 +3510,10 @@ body[dir="rtl"] .checkbox:checked,
   width: 100%;
 }
 
+.w-20 {
+  width: 5rem;
+}
+
 .w-14 {
   width: 3.5rem;
 }
@@ -3540,18 +3544,6 @@ body[dir="rtl"] .checkbox:checked,
 
 .w-7 {
   width: 1.75rem;
-}
-
-.w-28 {
-  width: 7rem;
-}
-
-.w-20 {
-  width: 5rem;
-}
-
-.w-16 {
-  width: 4rem;
 }
 
 .max-w-screen-md {
@@ -3633,10 +3625,6 @@ body[dir="rtl"] .checkbox:checked,
 
 .gap-2 {
   gap: 0.5rem;
-}
-
-.gap-0 {
-  gap: 0px;
 }
 
 .overflow-hidden {
@@ -3762,6 +3750,10 @@ body[dir="rtl"] .checkbox:checked,
 
 .fill-current {
   fill: currentColor;
+}
+
+.fill-red-600 {
+  fill: #dc2626;
 }
 
 .p-0 {
@@ -4015,38 +4007,14 @@ body[dir="rtl"] .checkbox:checked,
 }
 
 @media (min-width: 640px) {
-  .sm\:block {
-    display: block;
-  }
-
-  .sm\:hidden {
-    display: none;
-  }
-
   .sm\:w-full {
     width: 100%;
-  }
-
-  .sm\:w-28 {
-    width: 7rem;
-  }
-
-  .sm\:w-36 {
-    width: 9rem;
   }
 
   .sm\:w-fit {
     width: -webkit-fit-content;
     width: -moz-fit-content;
     width: fit-content;
-  }
-
-  .sm\:max-w-\[\] {
-    max-width: ;
-  }
-
-  .sm\:max-w-\[8\] {
-    max-width: 8;
   }
 
   .sm\:max-w-\[8rem\] {
@@ -4087,10 +4055,6 @@ body[dir="rtl"] .checkbox:checked,
 
   .md\:hidden {
     display: none;
-  }
-
-  .md\:w-full {
-    width: 100%;
   }
 
   .md\:flex-row {
