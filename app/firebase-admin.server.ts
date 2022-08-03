@@ -23,5 +23,9 @@ if (serviceAccountConfig) {
       : getApp();
 }
 
-export const db = adminApp ? getFirestore(adminApp) : null;
-export const auth = adminApp ? admin.auth(adminApp) : null;
+if (!adminApp) {
+  throw new Error("Firebase application could not initialized!");
+}
+
+export const db = getFirestore(adminApp);
+export const auth = admin.auth(adminApp);
