@@ -49,19 +49,19 @@ export async function getAll(
 }
 
 export async function getItem(id: string) {
-  const ref = db.collection("Roadmap").doc(id);
+  const ref = db.collection(collectionName).doc(id);
   const data = await ref.get();
   return RoadmapItem.fromFirestore(data);
 }
 
 export async function getVotes(id: string) {
-  const ref = db.collection("Roadmap").doc(id).collection("votes");
+  const ref = db.collection(collectionName).doc(id).collection("votes");
   const snapshot = await ref.get();
   return snapshot.docs.map(Vote.fromFirestore);
 }
 
 export async function getTimelog(id: string) {
-  const ref = db.collection("Roadmap").doc(id).collection("timelog");
+  const ref = db.collection(collectionName).doc(id).collection("timelog");
   const snapshot = await ref.get();
   return snapshot.docs.map(TimelogItem.fromFirestore);
 }
@@ -77,9 +77,12 @@ export async function createVote(
     // throw new Error("User is not authenticated");
   }
 
-  const votesRef = db.collection("Roadmap").doc(itemId).collection("votes");
+  const votesRef = db
+    .collection(collectionName)
+    .doc(itemId)
+    .collection("votes");
   const userVoteRef = db
-    .collection("Roadmap")
+    .collection(collectionName)
     .doc(itemId)
     .collection("votes")
     .where("_createdBy.uid", "==", currentUser.uid);
